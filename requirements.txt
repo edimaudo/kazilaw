@@ -7,11 +7,20 @@ jinja2==3.1.5
 python-multipart==0.0.20
 pydantic==2.10.6
 pydantic-settings==2.7.1
+PyPDF2
 
 # AI & Integration
-# Note: Using httpx for direct Airia API calls as per standard Agentic patterns
 httpx==0.28.1
 python-dotenv==1.0.1
+google-ai-generativelanguage==0.6.15
+google-api-core==2.30.3
+google-api-python-client==2.196.0
+google-auth==2.48.0
+google-auth-httplib2==0.4.0
+google-genai>=1.61.0
+google-generativeai==0.8.6
+googleapis-common-protos==1.75.0
+google-cloud-firestore>=2.15.0
 
 # Lightweight extraction tools
 pymupdf==1.25.3

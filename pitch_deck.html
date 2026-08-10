@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>onllaw Pitch Deck</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root { --navy: #002147; --gold: #D4AF37; }
+        body { font-family: 'Inter', sans-serif; background-color: #00152e; }
+        
+        .control-btn {
+            background-color: var(--gold);
+            color: var(--navy);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 1rem 2rem;
+            transition: all 0.2s ease;
+            flex: 1;
+            border: none;
+        }
+        .control-btn:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-1px); }
+        .control-btn:disabled { 
+            background-color: #1e293b !important; 
+            color: #475569 !important; 
+            cursor: not-allowed; 
+        }
+
+        .slide { display: none; list-style: none; }
+        .slide.active { display: flex; flex-direction: column; height: 100%; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .sidebar-item { border-left: 3px solid transparent; padding: 0.75rem 1rem; opacity: 0.5; transition: 0.3s; }
+        .sidebar-item.active { border-left: 3px solid var(--gold); background: rgba(212, 175, 55, 0.1); color: var(--gold); opacity: 1; }
+
+        .list-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 20px; }
+        .bullet { color: var(--gold); font-size: 2rem; font-weight: bold; line-height: 1; }
+        .content-text { font-size: 1.15rem; color: #4b5563; line-height: 1.4; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-6">
+
+    <div class="w-full max-w-6xl flex h-[600px] shadow-2xl overflow-hidden rounded-md bg-white">
+        
+        <div class="w-64 bg-[#00152e] p-10 flex flex-col justify-between text-white border-r border-white/5">
+            <div>
+                <h1 class="text-2xl font-black mb-12 uppercase tracking-tighter">onllaw</h1>
+                <nav class="space-y-4 text-[10px] font-bold uppercase tracking-widest">
+                    <div id="nav-1" class="sidebar-item active">01. Introduction</div>
+                    <div id="nav-2" class="sidebar-item">02. Problem</div>
+                    <div id="nav-3" class="sidebar-item">03. Design</div>
+                    <div id="nav-4" class="sidebar-item">04. Features & Demo</div>
+                    <div id="nav-5" class="sidebar-item">05. Next Steps</div>
+                    <div id="nav-6" class="sidebar-item">06. Close</div>
+                </nav>
+            </div>
+        </div>
+
+        <div class="flex-1 p-16 flex flex-col justify-between">
+            <div id="slide-container" class="flex-1 flex flex-col">
+                
+                <div class="slide active" id="slide-1">
+                    <h2 class="text-5xl font-black mb-6 uppercase text-navy">onllaw</h2>
+                    <p class="text-xl font-bold text-gold uppercase tracking-widest mb-4">Democratizing access to employment contract reviews in Ontario</p>
+                    <p class="text-gray-500 leading-relaxed max-w-lg">
+                        Empowering residents of Ontario, Canada with the ability to identify employment contracts issues before they are signed.
+                    </p>
+                </div>
+
+                <div class="slide" id="slide-2">
+                    <h2 class="text-4xl font-black mb-10 uppercase text-navy">The Problem</h2>
+                    <div class="list-row"><span class="bullet">•</span><span class="content-text">Ontario employees often sign contracts containing non-compliant "enforceability" clauses.</span></div>
+                    <div class="list-row"><span class="bullet">•</span><span class="content-text">Most Legal reviews are unaffordable for individual employees (100+ CAD per hour).</span></div>
+                    <div class="list-row"><span class="bullet">•</span><span class="content-text">Manual review of employment contracts are time-prohibitive.</span></div>
+                </div>
+
+                <div class="slide" id="slide-3">
+                    <h2 class="text-4xl font-black mb-6 uppercase text-navy">How it's Built</h2>
+
+                    <div class="grid grid-cols-2 gap-4 text-base font-mono">
+                        <div class="p-4 bg-slate-50 border">
+                            <p class="font-bold text-navy mb-2 underline uppercase">Backend</p>
+                            <p>FastAPI<br>Airia Platform<br>Vercel</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 border">
+                            <p class="font-bold text-navy mb-2 underline uppercase">Frontend</p>
+                            <p>Jinja2 Templates<br>Tailwind CSS</p>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+
+                <div class="slide" id="slide-4">
+                    <h2 class="text-4xl font-black mb-10 uppercase text-navy">Key Features & Demo</h2>
+                    <div class="list-row"><span class="bullet">•</span><span class="content-text"><strong>Compliance Reviews:</strong> Generates legal summary, enforceability status, applicable legal sections, next steps, email drafts.</span></div>
+                    <div class="list-row"><span class="bullet">•</span><span class="content-text"><strong>Employment Standard Q&A chatbot:</strong> Curious about Employment Standards? You can now ask questions via a chatbot.</span></div>
+                    <div class="list-row"><span class="bullet">•</span><span class="content-text"><strong>Lawyer References:</strong> Has a list of Ontario lawyers focused on employment and labour law.</span></div>
+                </div>
+
+                <div class="slide" id="slide-5">
+                    <div class="flex-1 flex flex-col justify-center">
+                        <h2 class="text-4xl font-black mb-8 uppercase text-navy">Next Steps</h2>
+                        <div class="mb-12">
+                            <div class="list-row"><span class="bullet">•</span><span class="content-text"><strong>Language:</strong> Create French version and ability toggle between both languages.</span></div>
+                            <div class="list-row"><span class="bullet">•</span><span class="content-text"><strong>Lawyers:</strong> Expand list of lawyers to all of Canada.</span></div>
+                            <div class="list-row"><span class="bullet">•</span><span class="content-text"><strong>Data:</strong> Expand employment standard references to all of Canada.</span></div>
+                        </div>
+                        
+
+                    </div>
+                </div>
+
+                <div class="slide" id="slide-6">
+                    <div class="flex-1 flex flex-col justify-center">
+                        <h2 class="text-4xl font-black mb-8 uppercase text-navy">Closing</h2>
+                        <div class="mb-12">
+                        </div>
+                        
+                        <div class="w-full text-center py-10 border-y-2 border-navy">
+                            <p class="text-4xl font-black uppercase text-navy mb-2">Scaling Access to Employment Justice</p>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="flex gap-4">
+                <button id="prevBtn" onclick="changeSlide(-1)" class="control-btn" disabled>Previous</button>
+                <button id="nextBtn" onclick="changeSlide(1)" class="control-btn">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let current = 1;
+        const total = 6;
+        function changeSlide(dir) {
+            document.getElementById(`slide-${current}`).classList.remove('active');
+            document.getElementById(`nav-${current}`).classList.remove('active');
+            current += dir;
+            document.getElementById(`slide-${current}`).classList.add('active');
+            document.getElementById(`nav-${current}`).classList.add('active');
+            document.getElementById('prevBtn').disabled = (current === 1);
+            document.getElementById('nextBtn').disabled = (current === total);
+        }
+    </script>
+</body>
+</html>

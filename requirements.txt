@@ -1,0 +1,21 @@
+# Web Framework
+fastapi==0.115.8
+uvicorn==0.34.0
+jinja2==3.1.5
+
+# File Handling & Logic
+python-multipart==0.0.20
+pydantic==2.10.6
+pydantic-settings==2.7.1
+
+# AI & Integration
+# Note: Using httpx for direct Airia API calls as per standard Agentic patterns
+httpx==0.28.1
+python-dotenv==1.0.1
+
+# Lightweight extraction tools
+pymupdf==1.25.3
+python-docx==1.1.2
+
+# Deployment
+mangum==0.19.0

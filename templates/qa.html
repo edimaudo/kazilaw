@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen py-12 px-6 transition-colors duration-300">
+    <div class="max-w-4xl mx-auto">
+        <!-- Text scales or colors smoothly depending on the theme state -->
+        <h2 class="text-3xl font-bold mb-2">Employee Q&A</h2>
+        <p class="opacity-80 mb-8">Consult the <span id="dynamic-province-text">Ontario</span> Employment Standards Act.</p>
+        
+
+        <!-- Replaced hardcoded bg-white with dynamic theme surfaces -->
+        <div class="bg-[var(--bg-card)] p-6 md:p-8 border border-[var(--border-color)] shadow-sm text-[var(--text-primary)] transition-colors duration-300">
+            <form id="qaForm">
+                <div class="mb-6">
+                    <label for="question" class="block text-sm font-bold mb-2 uppercase tracking-wider">Your Inquiry</label>
+                    <!-- Input box matches theme variables so text contrast remains compliant -->
+                    <textarea id="question" name="question" required
+                        class="w-full h-32 p-4 border border-[var(--border-color)] bg-[var(--bg-primary)] text-[var(--text-primary)] shadow-sm outline-none transition legal-text"
+                        placeholder="Enter your question regarding Employment rights..."></textarea>
+                </div>
+
+                <!-- Replaced hardcoded bg-navy with global core action button for high contrast -->
+                <button type="submit" id="submitBtn" class="btn-core-action w-full py-4">
+                    SUBMIT INQUIRY
+                </button>
+            </form>
+
+            <!-- Results container adapts dynamically to background shifts -->
+            <div id="resultContainer" class="hidden mt-8 p-6 bg-[var(--bg-primary)] border-t-2 border-yellow-500 rounded">
+                <h3 class="font-bold mb-2 uppercase text-sm">Legal Information Summary</h3>
+                <div id="answerArea" class="legal-text leading-relaxed whitespace-pre-wrap"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('qaForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const questionInput = document.getElementById('question');
+    const submitBtn = document.getElementById('submitBtn');
+    const resultContainer = document.getElementById('resultContainer');
+    const answerArea = document.getElementById('answerArea');
+
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Consulting the Employment Service Act (ESA)...";
+    resultContainer.classList.add('hidden');
+
+    try {
+        const formData = new FormData();
+        formData.append('question', questionInput.value);
+
+        const response = await fetch('/qa', {
+            method: 'POST',
+            body: formData 
+        });
+        if (!response.ok) throw new Error('Network response error');
+
+        const data = await response.json();
+        resultContainer.classList.remove('hidden');
+        answerArea.innerText = data.answer || "No specific guidance found for this inquiry.";
+    } catch (error) {
+        console.error('Error:', error);
+        resultContainer.classList.remove('hidden');
+        answerArea.innerText = "An error occurred while communicating with the system.";
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = "SUBMIT INQUIRY";
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-[var(--bg-primary)] text-[var(--text-primary)] min-h-screen transition-colors duration-300">
+    <header class="bg-[#002147] text-white py-12 px-6 border-b-4 border-gold">
+        <div class="max-w-6xl mx-auto">
+            <h1 class="text-4xl font-serif font-bold mb-2 uppercase tracking-tight">Legal Directory</h1>
+            <p class="text-lg text-gray-300 font-light italic"> Certified Specialists in Labour and Employment Law</p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto py-12 px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for lawyer in specialists %}
+            <div class="group bg-[var(--bg-card)] border border-[var(--border-color)] p-6 md:p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold text-gold bg-gold/10 px-2 py-1 uppercase tracking-widest">{{ lawyer.city }}</span>
+                    <span class="font-serif font-bold text-lg">C.S.</span>
+                </div>
+                
+                <h3 class="text-2xl font-serif font-bold mb-2 group-hover:text-gold transition-colors">{{ lawyer.name }}</h3>
+                
+                <div class="h-px w-12 bg-gold mb-4 group-hover:w-full transition-all duration-500"></div>
+                
+                <div class="text-sm mb-6">
+                    <p class="opacity-60 uppercase text-[10px] font-bold tracking-widest mb-1">Business Name</p>
+                    <p class="font-medium leading-tight">{{ lawyer.firm }}</p>
+                </div>
+
+                <a href="https://lso.ca/directory-of-certified-specialists/labour-law" target="_blank" class="text-xs font-black uppercase border-b border-[var(--text-primary)] hover:text-gold hover:border-gold transition pb-1">
+                    Verify LSO Standing
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- <footer class="mt-20 py-8 border-t border-[var(--border-color)] text-center opacity-60 text-[10px] uppercase tracking-widest">
+            Source: Law Society of Ontario
+        </footer> -->
+    </main>
+</div>
+{% endblock %}

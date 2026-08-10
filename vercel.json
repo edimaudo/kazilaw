@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "main.py",
+      "use": "@vercel/python",
+      "config": { "maxDuration": 120, "memory": 1024 }
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "main.py"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "main.py"
+    }
+  ]
+}

@@ -70,40 +70,67 @@
             <!-- Brand -->
             <a href="/"
                class="text-2xl font-bold tracking-tighter shrink-0"
-               aria-label="kazilaw Home">
-                kazilaw
+               aria-label="onllaw Home">
+                onllaw
             </a>
 
             <!-- Navigation + Controls -->
             <div class="flex flex-wrap items-center justify-end gap-3 md:gap-5">
 
                 <!-- Primary Navigation -->
-                <div class="flex items-center gap-4 md:gap-7 text-sm font-semibold uppercase tracking-wider">
+                <div class="flex items-center gap-3 md:gap-5 text-sm font-semibold">
+
+                    <!-- Q&A -->
                     <a href="/qa"
-                       class="hover:text-[#D4AF37] transition duration-300">
+                       class="px-3 py-2 rounded-md
+                              text-[#002147]
+                              hover:bg-gray-100
+                              hover:text-[#002147]
+                              transition duration-200
+                              border-b-2 border-[#D4AF37]">
                         Q&A
                     </a>
 
+                    <!-- Contract Review -->
                     <a href="/audit"
-                       class="px-3 md:px-4 py-2 border border-[#002147] rounded-md
-                              hover:bg-[#002147] hover:text-white transition duration-300">
+                       class="px-4 py-2 rounded-md
+                              border border-[#002147]
+                              hover:bg-[#002147]
+                              hover:text-white
+                              transition duration-200">
                         Contract Review
                     </a>
+
                 </div>
 
                 <!-- Divider -->
                 <div class="hidden md:block h-6 w-px bg-gray-200"></div>
 
                 <!-- Province -->
-                <div class="flex items-center">
+                <div class="relative flex items-center">
+
                     <label for="province-select" class="sr-only">
                         Province
                     </label>
 
                     <select id="province-select"
-                            class="px-1 py-1 text-sm font-semibold bg-transparent
-                                   border-0 text-[#002147] cursor-pointer
-                                   focus:ring-0 focus:outline-none">
+                            class="appearance-none
+                                   pl-3 pr-9 py-2
+                                   min-w-[130px]
+                                   text-sm font-semibold
+                                   bg-gray-50
+                                   border border-gray-300
+                                   rounded-md
+                                   text-[#002147]
+                                   cursor-pointer
+                                   hover:bg-gray-100
+                                   hover:border-gray-400
+                                   focus:outline-none
+                                   focus:ring-2
+                                   focus:ring-[#D4AF37]
+                                   focus:border-[#D4AF37]
+                                   transition duration-200">
+
                         <option value="AB">Alberta</option>
                         <option value="BC">British Columbia</option>
                         <option value="MB">Manitoba</option>
@@ -114,7 +141,21 @@
                         <option value="PE">Prince Edward Island</option>
                         <option value="QC">Quebec</option>
                         <option value="SK">Saskatchewan</option>
+
                     </select>
+
+                    <!-- Dropdown Arrow -->
+                    <div class="pointer-events-none absolute right-3 top-1/2
+                                -translate-y-1/2 text-[#002147]">
+                        <svg class="w-4 h-4"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             viewBox="0 0 24 24">
+                            <path d="M6 9l6 6 6-6"/>
+                        </svg>
+                    </div>
+
                 </div>
 
                 <!-- Accessibility -->
@@ -123,8 +164,11 @@
                     <button id="accessibility-toggle"
                             type="button"
                             onclick="toggleAccessibility()"
-                            class="px-3 py-2 text-sm font-bold border border-gray-300
-                                   rounded-md hover:bg-gray-100 transition duration-300"
+                            class="px-3 py-2 text-sm font-bold
+                                   border border-gray-300
+                                   rounded-md
+                                   hover:bg-gray-100
+                                   transition duration-200"
                             aria-expanded="false"
                             aria-controls="accessibility-panel"
                             aria-label="Accessibility settings">
@@ -134,46 +178,52 @@
                     <!-- Accessibility Panel -->
                     <div id="accessibility-panel"
                          class="hidden absolute right-0 top-full mt-2 w-64 p-4
-                                bg-white border border-gray-200 rounded-lg shadow-lg
-                                z-50">
+                                bg-white border border-gray-200 rounded-lg
+                                shadow-lg z-50">
 
-                        <div class="text-xs font-bold uppercase tracking-wider mb-3">
+                        <div class="text-xs font-bold uppercase
+                                    tracking-wider mb-3">
                             Text Size
                         </div>
 
                         <div class="flex gap-2">
+
                             <button onclick="changeFontSize('small')"
                                     class="flex-1 px-2 py-2 text-xs font-semibold
-                                           bg-white border border-gray-300 rounded
-                                           hover:bg-gray-100">
+                                           bg-white border border-gray-300
+                                           rounded hover:bg-gray-100">
                                 Small
                             </button>
 
                             <button onclick="changeFontSize('medium')"
                                     class="flex-1 px-2 py-2 text-sm font-bold
-                                           bg-white border border-gray-300 rounded
-                                           hover:bg-gray-100">
+                                           bg-white border border-gray-300
+                                           rounded hover:bg-gray-100">
                                 Medium
                             </button>
 
                             <button onclick="changeFontSize('large')"
                                     class="flex-1 px-2 py-2 text-base font-black
-                                           bg-white border border-gray-300 rounded
-                                           hover:bg-gray-100">
+                                           bg-white border border-gray-300
+                                           rounded hover:bg-gray-100">
                                 Large
                             </button>
+
                         </div>
 
                     </div>
+
                 </div>
 
                 <!-- Theme Toggle -->
                 <button id="theme-toggle"
                         type="button"
                         onclick="toggleTheme()"
-                        class="px-3 py-2 text-sm font-semibold bg-[#002147]
-                               text-white rounded-md hover:opacity-90
-                               transition duration-300"
+                        class="px-3 py-2 text-sm font-semibold
+                               bg-[#002147] text-white
+                               rounded-md
+                               hover:opacity-90
+                               transition duration-200"
                         aria-label="Toggle light and dark theme">
                     ☀ Light
                 </button>
@@ -182,6 +232,39 @@
         </div>
     </div>
 </nav>
+
+<script>
+    function toggleAccessibility() {
+        const panel = document.getElementById('accessibility-panel');
+        const button = document.getElementById('accessibility-toggle');
+
+        const isHidden = panel.classList.contains('hidden');
+
+        panel.classList.toggle('hidden');
+        button.setAttribute('aria-expanded', isHidden);
+    }
+
+    function changeFontSize(size) {
+        document.documentElement.classList.remove(
+            'text-size-small',
+            'text-size-medium',
+            'text-size-large'
+        );
+
+        document.documentElement.classList.add(`text-size-${size}`);
+    }
+
+    function toggleTheme() {
+        const html = document.documentElement;
+        const button = document.getElementById('theme-toggle');
+
+        html.classList.toggle('dark');
+
+        const isDark = html.classList.contains('dark');
+
+        button.textContent = isDark ? '☾ Dark' : '☀ Light';
+    }
+</script>
 
 <script>
     function toggleAccessibility() {

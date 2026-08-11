@@ -1,6 +1,6 @@
 # KaziLaw
 
-**KaziLaw** is a Legal Support System focused on democratizing access to employment law information in Canada by providing employment contract review and the ability to perform employment rights Q&A.  
+**KaziLaw** is a tool focused on democratizing access to employment law information in Canada by providing employment contract review and the ability to perform employment rights Q&A.  
 
 ## Key Features
 - **Employment Standards Q&A**: Summarized answers regarding employment rights across the Country.

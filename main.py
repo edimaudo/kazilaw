@@ -22,12 +22,12 @@ async def custom_404_handler(request: Request, __):
     return templates.TemplateResponse("404.html", {"request": request}, status_code=404)
 
 @app.get("/audit", response_class=HTMLResponse)
-async def get_qa_page(request: Request):
+async def get_audit(request: Request):
     """Contract audit section"""
     return templates.TemplateResponse("audit.html", {"request": request})
 
 @app.post("/audit")
-async def handle_audit(file: UploadFile = File(None), clause_text: str = Form(None)):
+async def handle_audit(file: UploadFile = File(None), clause_text: str = Form(None),province: str = Form("ON")):
     context = ""
     
     # Extraction with Scanned PDF Detection
@@ -48,7 +48,7 @@ async def handle_audit(file: UploadFile = File(None), clause_text: str = Form(No
     elif clause_text:
         context = clause_text
 
-    if not context or "Unsupported" in context:
+    if not context or "Unsupported" or "ERROR" in context:
         return {"answer": "Error: No readable text was provided for analysis."}
 
    # Specialized Review prompt --> this needed to be moved
@@ -62,21 +62,26 @@ async def handle_audit(file: UploadFile = File(None), clause_text: str = Form(No
     )
     
     # Call the Agent
-    analysis = await ask_esa_lawyer(audit_prompt)
+    analysis = await aaudit_contract(audit_prompt, province)
+    
+    # Store session in Cloud Firestore
+    #log_session("audits", province, analysis)
     return {"answer": analysis}
 
 
 @app.get("/qa", response_class=HTMLResponse)
-async def get_qa_page(request: Request):
+async def get_qa(request: Request):
     """Q&A section"""
     return templates.TemplateResponse("qa.html", {"request": request})
 
 @app.post("/qa")
-async def handle_qa_logic(question: str = Form(...)):
-    """Reasoning: This processes the actual AI question after the user hits submit."""
-    answer = await ask_esa_lawyer(question)
+async def handle_qa(question: str = Form(...),province: str = Form("ON")):
+    """Q&A Section"""
+    answer = await ask_qa(question, province)
+    # Store session in Cloud Firestore
+    #log_session("qa_inquiries", province, answer)
     return {"answer": answer}
-    return response
+    #return response
 
 # @app.get("/lawyers", response_class=HTMLResponse)
 # async def get_lawyers_page(request: Request):

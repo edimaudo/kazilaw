@@ -5,7 +5,7 @@
     <div class="max-w-4xl mx-auto">
         <!-- Text scales or colors smoothly depending on the theme state -->
         <h2 class="text-3xl font-bold mb-2">Employee Q&A</h2>
-        <p class="opacity-80 mb-8">Consult the <span id="dynamic-province-text">Ontario</span> Employment Standards Act.</p>
+        <p class="opacity-80 mb-8">Consult the <span id="dynamic-province-text">Ontario</span> Employment/Labour Standards.</p>
         
 
         <!-- Replaced hardcoded bg-white with dynamic theme surfaces -->
@@ -16,7 +16,7 @@
                     <!-- Input box matches theme variables so text contrast remains compliant -->
                     <textarea id="question" name="question" required
                         class="w-full h-32 p-4 border border-[var(--border-color)] bg-[var(--bg-primary)] text-[var(--text-primary)] shadow-sm outline-none transition legal-text"
-                        placeholder="Enter your question regarding Employment rights..."></textarea>
+                        placeholder="Enter your question regarding Employment/Labour rights..."></textarea>
                 </div>
 
                 <!-- Replaced hardcoded bg-navy with global core action button for high contrast -->
@@ -43,7 +43,7 @@ document.getElementById('qaForm').addEventListener('submit', async (e) => {
     const answerArea = document.getElementById('answerArea');
 
     submitBtn.disabled = true;
-    submitBtn.innerText = "Consulting the Employment Service Act (ESA)...";
+    submitBtn.innerText = "Consulting Employment/Labour Law(s)...";
     resultContainer.classList.add('hidden');
 
     try {

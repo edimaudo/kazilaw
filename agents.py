@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+# client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 PROVINCIAL_LEGISLATION = {
     "AB": {"name": "Alberta", "act": "Employment Standards Code", "url": "https://kings-printer.alberta.ca/1266.cfm?page=1997_014.cfm&leg_type=Regs&isbncln=9780779858910&display=html"},

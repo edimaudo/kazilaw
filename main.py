@@ -21,7 +21,7 @@ async def custom_404_handler(request: Request, __):
 
 @app.get("/audit", response_class=HTMLResponse)
 async def get_qa_page(request: Request):
-    """Reasoning: This renders the UI when the user clicks the link."""
+    """Contract audit section"""
     return templates.TemplateResponse("audit.html", {"request": request})
 
 @app.post("/audit")
@@ -54,7 +54,7 @@ async def handle_audit(file: UploadFile = File(None), clause_text: str = Form(No
         "Act as an Employment Law Expert in Canada. Audit the following text for ESA compliance.\n"
         "1. Identify any illegal or unenforceable clauses.\n"
         "2. Suggest specific corrections.\n"
-        "3.  If there is an illegal or unenforceable clause(s) PROVDE A DRAFT collaborative EMAIL to HR\n[Provide a collaborative email draft here]\n\n"
+        "3. If there is an illegal or unenforceable clause(s) PROVDE A DRAFT collaborative EMAIL to HR\n[Provide a collaborative email draft here]\n\n"
         "4. If there is an illegal or unenforceable clause(s) provide a DRAFT SUMMARY FOR LAWYER\n[Provide a formal legal summary here]\n\n"
         f"CONTRACT CONTENT:\n{context}"
     )
@@ -66,7 +66,7 @@ async def handle_audit(file: UploadFile = File(None), clause_text: str = Form(No
 
 @app.get("/qa", response_class=HTMLResponse)
 async def get_qa_page(request: Request):
-    """Reasoning: This renders the UI when the user clicks the link."""
+    """Q&A section"""
     return templates.TemplateResponse("qa.html", {"request": request})
 
 @app.post("/qa")

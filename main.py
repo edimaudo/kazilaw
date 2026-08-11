@@ -4,14 +4,16 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from utils import extract_text_from_file
-#from agents import ask_esa_lawyer
 import shutil
 import os
+# from agents import audit_contract, ask_qa
+# from db import log_session
+
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def landing(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 

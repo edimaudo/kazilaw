@@ -78,26 +78,29 @@
             <div class="flex flex-wrap items-center justify-end gap-3 md:gap-5">
 
                 <!-- Primary Navigation -->
-                <div class="flex items-center gap-3 md:gap-5 text-sm font-semibold">
+                <div class="flex items-center gap-1 text-sm font-semibold">
 
                     <!-- Q&A -->
                     <a href="/qa"
-                       class="px-3 py-2 rounded-md
-                              text-[#002147]
+                       class="px-3 py-2 rounded-md transition duration-200
                               hover:bg-gray-100
-                              hover:text-[#002147]
-                              transition duration-200
-                              border-b-2 border-[#D4AF37]">
+                              {% if request.path == '/qa' %}
+                              bg-gray-100 text-[#002147]
+                              {% else %}
+                              text-[#002147]
+                              {% endif %}">
                         Q&A
                     </a>
 
                     <!-- Contract Review -->
                     <a href="/audit"
-                       class="px-4 py-2 rounded-md
-                              border border-[#002147]
-                              hover:bg-[#002147]
-                              hover:text-white
-                              transition duration-200">
+                       class="px-3 py-2 rounded-md transition duration-200
+                              hover:bg-gray-100
+                              {% if request.path == '/audit' %}
+                              bg-gray-100 text-[#002147]
+                              {% else %}
+                              text-[#002147]
+                              {% endif %}">
                         Contract Review
                     </a>
 
@@ -115,20 +118,16 @@
 
                     <select id="province-select"
                             class="appearance-none
-                                   pl-3 pr-9 py-2
-                                   min-w-[130px]
+                                   pl-3 pr-8 py-2
+                                   min-w-[125px]
                                    text-sm font-semibold
-                                   bg-gray-50
+                                   bg-white
                                    border border-gray-300
                                    rounded-md
                                    text-[#002147]
                                    cursor-pointer
-                                   hover:bg-gray-100
-                                   hover:border-gray-400
+                                   hover:bg-gray-50
                                    focus:outline-none
-                                   focus:ring-2
-                                   focus:ring-[#D4AF37]
-                                   focus:border-[#D4AF37]
                                    transition duration-200">
 
                         <option value="AB">Alberta</option>
@@ -145,16 +144,14 @@
                     </select>
 
                     <!-- Dropdown Arrow -->
-                    <div class="pointer-events-none absolute right-3 top-1/2
-                                -translate-y-1/2 text-[#002147]">
-                        <svg class="w-4 h-4"
-                             fill="none"
-                             stroke="currentColor"
-                             stroke-width="2"
-                             viewBox="0 0 24 24">
-                            <path d="M6 9l6 6 6-6"/>
-                        </svg>
-                    </div>
+                    <svg class="pointer-events-none absolute right-2.5
+                                w-4 h-4 text-gray-500"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         viewBox="0 0 24 24">
+                        <path d="M6 9l6 6 6-6"/>
+                    </svg>
 
                 </div>
 

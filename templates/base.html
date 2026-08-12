@@ -230,7 +230,10 @@
     </div>
 </nav>
 
-<script>
+
+
+    
+<!-- <script>
     function toggleAccessibility() {
         const panel = document.getElementById('accessibility-panel');
         const button = document.getElementById('accessibility-toggle');
@@ -294,7 +297,7 @@
 
         button.textContent = isDark ? '☾ Dark' : '☀ Light';
     }
-</script>
+</script> -->
 
     <main class="flex-grow" id="main-content">
         {% block content %}{% endblock %}
@@ -306,7 +309,7 @@
         </div>
     </footer>
 
-<script>
+<!-- <script>
     function updateThemeButtonText(isDark) {
         const themeBtn = document.getElementById('theme-toggle');
         if (themeBtn) {
@@ -391,6 +394,128 @@
             }
         }
     }
+</script> -->
+    <script>
+    const app = {
+        get path() {
+            return window.location.pathname;
+        },
+
+        get isHomePage() {
+            return this.path === '/' ||
+                   this.path.endsWith('index.html') ||
+                   this.path === '';
+        }
+    };
+
+    function toggleAccessibility() {
+        const panel = document.getElementById('accessibility-panel');
+        const button = document.getElementById('accessibility-toggle');
+
+        if (!panel || !button) return;
+
+        const isHidden = panel.classList.contains('hidden');
+
+        panel.classList.toggle('hidden');
+        button.setAttribute('aria-expanded', String(isHidden));
+    }
+
+    function changeFontSize(size) {
+        document.body.classList.remove(
+            'font-size-small',
+            'font-size-medium',
+            'font-size-large'
+        );
+
+        document.body.classList.add(`font-size-${size}`);
+        localStorage.setItem('preferred-font-size', size);
+    }
+
+    function updateThemeButton(isDark) {
+        const button = document.getElementById('theme-toggle');
+
+        if (!button) return;
+
+        button.textContent = isDark
+            ? '☾ Dark'
+            : '☀ Light';
+    }
+
+    function toggleTheme() {
+        if (app.isHomePage) return;
+
+        const isDark = document.documentElement.classList.toggle('dark-theme');
+
+        localStorage.setItem(
+            'preferred-theme',
+            isDark ? 'dark' : 'light'
+        );
+
+        updateThemeButton(isDark);
+    }
+
+    function updatePageProvinceText() {
+        const dropdown = document.getElementById('province-select');
+        const dynamicText = document.getElementById('dynamic-province-text');
+
+        if (!dropdown) return;
+
+        localStorage.setItem(
+            'preferred-province',
+            dropdown.value
+        );
+
+        if (dynamicText) {
+            dynamicText.textContent =
+                dropdown.options[dropdown.selectedIndex].text;
+        }
+    }
+
+    function initializeApp() {
+        const dropdown = document.getElementById('province-select');
+
+        // Restore font size
+        const savedSize = localStorage.getItem('preferred-font-size');
+
+        if (savedSize) {
+            changeFontSize(savedSize);
+        }
+
+        // Restore theme
+        const savedTheme = localStorage.getItem('preferred-theme');
+        const isDark = savedTheme === 'dark';
+
+        if (isDark && !app.isHomePage) {
+            document.documentElement.classList.add('dark-theme');
+        }
+
+        updateThemeButton(
+            isDark && !app.isHomePage
+        );
+
+        // Restore province
+        const savedProvince =
+            localStorage.getItem('preferred-province');
+
+        if (dropdown && savedProvince) {
+            dropdown.value = savedProvince;
+        }
+
+        // Listen for province changes
+        if (dropdown) {
+            dropdown.addEventListener(
+                'change',
+                updatePageProvinceText
+            );
+
+            updatePageProvinceText();
+        }
+    }
+
+    document.addEventListener(
+        'DOMContentLoaded',
+        initializeApp
+    );
 </script>
 </body>
 </html>

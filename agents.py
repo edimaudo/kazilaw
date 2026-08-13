@@ -1,12 +1,12 @@
 import os
-import json
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+# Initialize the client
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 PROVINCIAL_LEGISLATION = {
     "AB": {"name": "Alberta", "act": "Employment Standards Code", "url": "https://kings-printer.alberta.ca/1266.cfm?page=1997_014.cfm&leg_type=Regs&isbncln=9780779858910&display=html"},
@@ -24,7 +24,8 @@ PROVINCIAL_LEGISLATION = {
     "YT": {"name": "Yukon", "act": "Employment Standards Act", "url": "https://laws.yukon.ca/cms/images/LEGISLATION/PRINCIPAL/2002/2002-0072/2002-0072.pdf"}
 }
 
-async def audit_contract(contract_text: str, province_code: str = "ON") -> dict:
+async def audit_contract(contract_text: str, province_code: str = "ON") -> str:
+    """Returns a purely formatted Markdown string evaluating the contract."""
     code = province_code.upper()
     info = PROVINCIAL_LEGISLATION.get(code, PROVINCIAL_LEGISLATION["ON"])
 
@@ -32,40 +33,45 @@ async def audit_contract(contract_text: str, province_code: str = "ON") -> dict:
     You are an expert Employment Lawyer in {info['name']}, Canada. Audit the contract against the {info['act']}.
     Official Act URL: {info['url']}
 
-    OUTPUT REQUIREMENT: Return strictly a valid JSON object matching this schema:
-    {{
-        "province_code": "{code}",
-        "province_name": "{info['name']}",
-        "statute_name": "{info['act']}",
-        "official_statute_url": "{info['url']}",
-        "has_violations": boolean,
-        "identified_issues": [
-            {{
-                "clause_quote": "exact text from contract",
-                "statute_section": "section ref e.g. s. 5(1)",
-                "enforceability_analysis": "why it is unenforceable",
-                "suggested_correction": "compliant reworded clause"
-            }}
-        ],
-        "collaborative_hr_email_draft": "email text to HR requesting changes",
-        "lawyer_summary_brief": "formal text summary for legal review",
-        "disclaimer": "This summary is based on the legislation and is for informational purposes only."
-    }}
+    OUTPUT REQUIREMENT: Return a purely Markdown formatted report. Do NOT return JSON.
+    You MUST strictly use the following layout and headers:
+
+    ### LEGAL ANALYSIS
+    [Provide your detailed summary of the contract review against the legislation]
+
+    ### STATUS
+    [Provide the overall enforceability and compliance status]
+
+    ### APPLICABLE SECTIONS
+    [List the applicable sections from the {info['act']}, e.g., s. 5(1)]
+
+    ### RECOMMENDED NEXT STEPS
+    [Provide actionable steps based on your analysis]
+
+    CRITICAL CONDITIONAL INSTRUCTION: 
+    Only generate the next two headers if there are potential infractions, violations, or legal issues found in the contract. If the contract is fully compliant and has no issues, DO NOT include these headers or their contents at all:
+
+    ### DRAFT HR EMAIL 
+    [Draft email text to HR requesting the necessary changes]
+
+    ### DRAFT lawyer EMAIL 
+    [Draft formal text summary/email for legal review]
     """
 
-    response = client.models.generate_content(
+    response = await client.aio.models.generate_content(
         model="gemini-3.5-flash",
         contents=[f"Audit this contract:\n\n{contract_text}"],
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,
-            temperature=0.1,
-            response_mime_type="application/json"
+            temperature=0.1
+            # JSON mime type removed; defaulting to standard text/markdown output
         )
     )
 
-    return json.loads(response.text)
+    return response.text
 
-async def ask_qa(question: str, province_code: str = "ON") -> dict:
+async def ask_qa(question: str, province_code: str = "ON") -> str:
+    """Returns a purely formatted Markdown string answering a legal question."""
     code = province_code.upper()
     info = PROVINCIAL_LEGISLATION.get(code, PROVINCIAL_LEGISLATION["ON"])
 
@@ -73,26 +79,26 @@ async def ask_qa(question: str, province_code: str = "ON") -> dict:
     You are an Employment Legal Advisor in {info['name']}, Canada. Answer questions using the {info['act']}.
     Official Act URL: {info['url']}
 
-    OUTPUT REQUIREMENT: Return strictly a valid JSON object matching this schema:
-    {{
-        "province_code": "{code}",
-        "province_name": "{info['name']}",
-        "statute_name": "{info['act']}",
-        "official_statute_url": "{info['url']}",
-        "answer": "detailed legal response",
-        "citations": ["list of section citations e.g. Section 11"],
-        "disclaimer": "Legal information only, not legal advice."
-    }}
+    OUTPUT REQUIREMENT: Return a purely Markdown formatted response. Do NOT return JSON.
+    Please structure your response using the following headers:
+
+    ### LEGAL ANSWER
+    [Detailed legal response]
+
+    ### CITATIONS
+    [List of section citations from the {info['act']}, e.g., Section 11]
+
+    ### DISCLAIMER
+    *This information is based on the legislation and is for informational purposes only. It does not constitute legal advice.*
     """
 
-    response = client.models.generate_content(
+    response = await client.aio.models.generate_content(
         model="gemini-3.5-flash",
         contents=[f"User question: {question}"],
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,
-            temperature=0.1,
-            response_mime_type="application/json"
+            temperature=0.1
         )
     )
 
-    return json.loads(response.text)
+    return response.text

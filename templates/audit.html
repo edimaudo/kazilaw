@@ -94,25 +94,36 @@
         submitBtn.disabled = true;
         btnText.innerText = "Processing Legal Context...";
         spinner.classList.remove('hidden');
-        output.innerText = ""; 
+        output.innerHTML = ""; 
         resultContainer.classList.add('hidden');
 
         const formData = new FormData(e.target);
 
+        // Dynamically append the selected province from localStorage (Fallback to ON)
+        const activeProvince = localStorage.getItem('selected-province') || 'ON';
+        formData.append('province', activeProvince);
+
         try {
-            const response = await fetch('audit', {
+            const response = await fetch('/audit', {
                 method: 'POST',
                 body: formData
             });
             if (!response.ok) throw new Error("API Failure");
+            
             const data = await response.json();
             
-            output.innerText = data.answer;
+            // Parse Markdown string to styled HTML
+            if (data.answer) {
+                output.innerHTML = marked.parse(data.answer);
+            } else {
+                output.innerHTML = "<p>No analysis could be generated.</p>";
+            }
+
             resultContainer.classList.remove('hidden');
             resultContainer.scrollIntoView({ behavior: 'smooth' });
             e.target.reset();
         } catch (error) {
-            output.innerText = "Critical Error: Could not process document.";
+            output.innerHTML = "<p class='text-red-500 font-bold'>Critical Error: Could not process document.</p>";
             resultContainer.classList.remove('hidden');
         } finally {
             submitBtn.disabled = false;
@@ -122,6 +133,7 @@
     });
 
     function copyResults() {
+        // innerText gets clean formatted text, ignoring HTML tags
         const text = document.getElementById('analysisOutput').innerText;
         navigator.clipboard.writeText(text).then(() => {
             alert("Review report copied to clipboard.");

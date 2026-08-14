@@ -80,6 +80,18 @@
                 <!-- Primary Navigation -->
                 <div class="flex items-center gap-1 text-sm font-semibold">
 
+                    <!-- Contract Review -->
+                    <a href="/audit"
+                       class="px-3 py-2 rounded-md transition duration-200
+                              hover:bg-gray-100
+                              {% if request.path == '/audit' %}
+                              bg-gray-100 text-[#002147]
+                              {% else %}
+                              text-[#002147]
+                              {% endif %}">
+                        Contract Review
+                    </a>
+                    
                     <!-- Q&A -->
                     <a href="/qa"
                        class="px-3 py-2 rounded-md transition duration-200
@@ -92,17 +104,7 @@
                         Q&A
                     </a>
 
-                    <!-- Contract Review -->
-                    <a href="/audit"
-                       class="px-3 py-2 rounded-md transition duration-200
-                              hover:bg-gray-100
-                              {% if request.path == '/audit' %}
-                              bg-gray-100 text-[#002147]
-                              {% else %}
-                              text-[#002147]
-                              {% endif %}">
-                        Contract Review
-                    </a>
+
 
                 </div>
 

@@ -31,30 +31,30 @@ async def audit_contract(contract_text: str, province_code: str = "ON") -> str:
 
     system_prompt = f"""
     You are an expert Employment Lawyer in {info['name']}, Canada. Audit the contract against the {info['act']}.
-    Official Act URL: {info['url']}
+    Official Act URL: {info['url']}. If it not a valid request say so in the legal answer section and keep the other sections empty
 
     OUTPUT REQUIREMENT: Return a purely Markdown formatted report. Do NOT return JSON.
     You MUST strictly use the following layout and headers:
 
-    ### LEGAL ANALYSIS
+    ## LEGAL ANALYSIS
     [Provide your detailed summary of the contract review against the legislation]
 
     ### STATUS
     [Provide the overall enforceability and compliance status]
 
-    ### APPLICABLE SECTIONS
+    ## APPLICABLE SECTIONS
     [List the applicable sections from the {info['act']}, e.g., s. 5(1)]
 
-    ### RECOMMENDED NEXT STEPS
+    ## RECOMMENDED NEXT STEPS
     [Provide actionable steps based on your analysis]
 
     CRITICAL CONDITIONAL INSTRUCTION: 
     Only generate the next two headers if there are potential infractions, violations, or legal issues found in the contract. If the contract is fully compliant and has no issues, DO NOT include these headers or their contents at all:
 
-    ### DRAFT HR EMAIL 
+    ## DRAFT HR EMAIL 
     [Draft email text to HR requesting the necessary changes]
 
-    ### DRAFT lawyer EMAIL 
+    ## DRAFT lawyer EMAIL 
     [Draft formal text summary/email for legal review]
     """
 
@@ -77,18 +77,18 @@ async def ask_qa(question: str, province_code: str = "ON") -> str:
 
     system_prompt = f"""
     You are an Employment Legal Advisor in {info['name']}, Canada. Answer questions using the {info['act']}.
-    Official Act URL: {info['url']}
+    Official Act URL: {info['url']}.  If it not a valid request say so in the legal answer section and keep the other sections empty
 
     OUTPUT REQUIREMENT: Return a purely Markdown formatted response. Do NOT return JSON.
     Please structure your response using the following headers:
 
-    ### LEGAL ANSWER
+    ## LEGAL ANSWER
     [Detailed legal response]
 
-    ### CITATIONS
+    ## CITATIONS
     [List of section citations from the {info['act']}, e.g., Section 11]
 
-    ### DISCLAIMER
+    ## DISCLAIMER
     *This information is based on the legislation and is for informational purposes only. It does not constitute legal advice.*
     """
 

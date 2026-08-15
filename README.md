@@ -1,6 +1,7 @@
 # KaziLaw
 
-**KaziLaw** is a tool focused on democratizing access to employment law information in Canada by providing employment contract review and the ability to perform employment rights Q&A.  
+## Overview
+**KaziLaw** provides employment contract review and the ability to perform employment rights Q&A for the Canadian workforce.  
 
 ## Key Features
 - **Employment Standards Q&A**: Summarized answers regarding employment rights across the Country.
@@ -29,7 +30,7 @@ kazilaw/
 ├── Dockerfile                   # Container definition for Google Cloud Run deployment
 ├── agents.py                    # Agent information
 ├── db.py                        # Google Cloud Firestore session logging helper
-├── main.py                      # FastAPI route definitions, and Jinja2 rendering
-├── requirements.txt             # Python project dependencies
+├── main.py                      # Routes and Jinja2 rendering
+├── requirements.txt             # Dependencies
 └── utils.py                     # Document text extraction helpers
 ```

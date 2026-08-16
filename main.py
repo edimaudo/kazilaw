@@ -7,7 +7,7 @@ from utils import extract_text_from_file
 import shutil
 import os
 from agents import audit_contract, ask_qa
-# from db import log_session
+from db import log_session
 
 
 app = FastAPI()
@@ -65,7 +65,7 @@ async def handle_audit(file: UploadFile = File(None), clause_text: str = Form(No
     analysis = await aaudit_contract(audit_prompt, province)
     
     # Store session in Cloud Firestore
-    #log_session("audits", province, analysis)
+    log_session("audits", province, analysis)
     return {"answer": analysis}
 
 
@@ -79,7 +79,7 @@ async def handle_qa(question: str = Form(...),province: str = Form("ON")):
     """Q&A Section"""
     answer = await ask_qa(question, province)
     # Store session in Cloud Firestore
-    #log_session("qa_inquiries", province, answer)
+    log_session("qa_inquiries", province, answer)
     return {"answer": answer}
     #return response
 

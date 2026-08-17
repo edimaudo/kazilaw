@@ -1,7 +1,7 @@
 # KaziLaw
 
 ## Overview
-**KaziLaw** provides employment contract review and the ability to perform employment rights Q&A for the Canadian workforce.  
+**kazilaw** uses AI to analyze employment contracts and answer questions on employment and labor law for the Canadian workforce.  
 
 ## Key Features
 - **Employment Standards Q&A**: Summarized answers regarding employment rights across the Country.

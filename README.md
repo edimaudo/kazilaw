@@ -98,5 +98,7 @@ docker build -t maplelaw-app .
 docker run -p 8080:8080 -e GEMINI_API_KEY="your_actual_gemini_api_key_here" maplelaw-app
 ```
 Landing Page: http://127.0.0.1:8080/
+
 Contract Review Interface: http://127.0.0.1:8080/audit
+
 Legal Q&A Interface: http://127.0.0.1:8080/qa

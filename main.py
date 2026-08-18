@@ -52,7 +52,7 @@ async def handle_audit(file: UploadFile = File(None), clause_text: str = Form(No
         return {"answer": "Error: No readable text was provided for analysis."}
     
     # Call the Agent
-    analysis = await aaudit_contract(context, province)
+    analysis = await audit_contract(context, province)
     
     # Store session in Cloud Firestore
     log_session("audits", province, analysis)

@@ -48,21 +48,11 @@ async def handle_audit(file: UploadFile = File(None), clause_text: str = Form(No
     elif clause_text:
         context = clause_text
 
-    if not context or "Unsupported" or "ERROR" in context:
+    if not context or "Unsupported" in context: #or "ERROR"
         return {"answer": "Error: No readable text was provided for analysis."}
-
-   # Specialized Review prompt --> this needed to be moved
-    audit_prompt = (
-        "Act as an Employment Law Expert in Canada. Audit the following text for ESA compliance.\n"
-        "1. Identify any illegal or unenforceable clauses.\n"
-        "2. Suggest specific corrections.\n"
-        "3. If there is an illegal or unenforceable clause(s) PROVDE A DRAFT collaborative EMAIL to HR\n[Provide a collaborative email draft here]\n\n"
-        "4. If there is an illegal or unenforceable clause(s) provide a DRAFT SUMMARY FOR LAWYER\n[Provide a formal legal summary here]\n\n"
-        f"CONTRACT CONTENT:\n{context}"
-    )
     
     # Call the Agent
-    analysis = await aaudit_contract(audit_prompt, province)
+    analysis = await aaudit_contract(context, province)
     
     # Store session in Cloud Firestore
     log_session("audits", province, analysis)

@@ -13,7 +13,6 @@
 - **Web Framework & Server**: FastAPI 
 - **Agent & LLM Engine**: Google GenAI SDK (google-genai) with Gemini 3.5 Flash/Pro
 - **Cloud Hosting & Compute**: Google Cloud Run (Docker Containerized)
-- **Database & Session Logging**: Google Cloud Firestore
 - **Document Processing & OCR**: PyMuPDF (fitz) and python-docx
 - **Template Engine**: Jinja2
 

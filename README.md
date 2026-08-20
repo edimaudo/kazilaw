@@ -11,7 +11,7 @@
 
 ## Technological Implementation
 - **Web Framework & Server**: FastAPI 
-- **Agent & LLM Engine**: Google GenAI SDK (google-genai) with Gemini 3.5 Flash/Pro
+- **Agent & LLM Engine**: Google GenAI SDK (google-genai) with Gemini 3.5 Flash
 - **Cloud Hosting & Compute**: Google Cloud Run (Docker Containerized)
 - **Document Processing & OCR**: PyMuPDF (fitz) and python-docx
 - **Template Engine**: Jinja2
@@ -28,7 +28,6 @@ kazilaw/
 │   └── qa.html                  # Employment standards Q&A form 
 ├── Dockerfile                   # Container definition for Google Cloud Run deployment
 ├── agents.py                    # Agent information
-├── db.py                        # Google Cloud Firestore session logging helper
 ├── main.py                      # Routes and Jinja2 rendering
 ├── requirements.txt             # Dependencies
 └── utils.py                     # Document text extraction helpers

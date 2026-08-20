@@ -7,7 +7,7 @@ from utils import extract_text_from_file
 import shutil
 import os
 from agents import audit_contract, ask_qa
-from db import log_session
+#from db import log_session
 
 
 app = FastAPI()

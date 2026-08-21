@@ -52,8 +52,13 @@ document.getElementById('qaForm').addEventListener('submit', async (e) => {
         formData.append('question', questionInput.value);
         
         // Dynamically append the province from localStorage (Fallback to ON)
-        const activeProvince = localStorage.getItem('selected-province') || 'ON';
-        formData.append('province', activeProvince);
+        // const activeProvince = localStorage.getItem('selected-province') || 'ON';
+        // formData.append('province', activeProvince);
+
+        const provinceDropdown = document.getElementById('province-select');
+        const activeProvince = provinceDropdown ? provinceDropdown.value : (localStorage.getItem('preferred-province') || 'ON');    
+        // Ensure 'province' field is set
+        formData.set('province', activeProvince);
 
         const response = await fetch('/qa', {
             method: 'POST',

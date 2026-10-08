@@ -97,8 +97,7 @@ async def ask_qa(question: str, province_code: str = "ON") -> str:
         contents=[f"User question: {question}"],
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,
-            temperature=0.1
-        )
+            thinking_config=types.ThinkingConfig(thinking_level="MEDIUM") # Options: "MINIMAL", "LOW", "MEDIUM", "HIGH" # old --> temperature=0.1 # temperature was depreciated
     )
 
     return response.text

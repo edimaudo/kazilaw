@@ -63,9 +63,13 @@ async def audit_contract(contract_text: str, province_code: str = "ON") -> str:
         contents=[f"Audit this contract:\n\n{contract_text}"],
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,
-            temperature=0.1
-            # JSON mime type removed; defaulting to standard text/markdown output
+            thinking_config=types.ThinkingConfig(thinking_level="MEDIUM") # Options: "MINIMAL", "LOW", "MEDIUM", "HIGH" # old --> temperature=0.1 # temperature was depreciated
         )
+        # config=types.GenerateContentConfig(
+        #     system_instruction=system_prompt,
+        #     temperature=0.1
+        #     # JSON mime type removed; defaulting to standard text/markdown output
+        # )
     )
 
     return response.text
@@ -98,6 +102,6 @@ async def ask_qa(question: str, province_code: str = "ON") -> str:
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,
             thinking_config=types.ThinkingConfig(thinking_level="MEDIUM") # Options: "MINIMAL", "LOW", "MEDIUM", "HIGH" # old --> temperature=0.1 # temperature was depreciated
+        )
     )
-
     return response.text

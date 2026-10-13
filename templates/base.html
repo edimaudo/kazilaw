@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ html_lang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -87,11 +87,17 @@
         opacity: 0.85;
     }
     </style>
+    {% block head_extra %}{% endblock %}
+    <script>
+        window.kazilawAllTranslations = {{ all_translations | tojson }};
+        window.kazilawLanguage = {{ language | tojson }};
+        window.kazilawI18n = Object.assign({}, window.kazilawAllTranslations[window.kazilawLanguage]);
+    </script>
 </head>
-<body class="flex flex-col min-h-screen font-size-medium">
+<body class="flex flex-col min-h-screen font-size-medium" data-title-key="{{ page_title_key }}">
     
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:p-4 focus:bg-white focus:text-[#002147] focus:z-50 border-2 border-gold">
-        Skip to main content
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:p-4 focus:bg-white focus:text-[#002147] focus:z-50 border-2 border-gold" data-i18n="skip_to_main">
+        {{ t["skip_to_main"] }}
     </a>
 
 <nav class="sticky top-0 z-50 bg-white border-b border-gray-200 text-[#002147]">
@@ -101,7 +107,7 @@
             <!-- Brand -->
             <a href="/"
                class="text-2xl font-bold tracking-tighter shrink-0"
-               aria-label="kazilaw Home">
+               aria-label="{{ t['home'] }}" data-i18n-aria-label="home">
                 kazilaw
             </a>
 
@@ -112,7 +118,7 @@
                 <div class="flex items-center gap-1 text-sm font-semibold">
 
                     <!-- Contract Review -->
-                    <a href="/audit"
+                    <a href="/audit" data-i18n="contract_review"
                        class="px-3 py-2 rounded-md transition duration-200
                               hover:bg-gray-100
                               {% if request.path == '/audit' %}
@@ -120,11 +126,11 @@
                               {% else %}
                               text-[#002147]
                               {% endif %}">
-                        Contract Review
+                        {{ t["contract_review"] }}
                     </a>
                     
                     <!-- Q&A -->
-                    <a href="/qa"
+                    <a href="/qa" data-i18n="qa"
                        class="px-3 py-2 rounded-md transition duration-200
                               hover:bg-gray-100
                               {% if request.path == '/qa' %}
@@ -132,7 +138,7 @@
                               {% else %}
                               text-[#002147]
                               {% endif %}">
-                        Q&A
+                        {{ t["qa"] }}
                     </a>
 
 
@@ -145,8 +151,8 @@
                 <!-- Province -->
                 <div class="relative flex items-center">
 
-                    <label for="province-select" class="sr-only">
-                        Province
+                    <label for="province-select" class="sr-only" data-i18n="province">
+                        {{ t["province"] }}
                     </label>
 
                     <select id="province-select"
@@ -163,19 +169,19 @@
                                    focus:outline-none
                                    transition duration-200">
 
-                        <option value="AB">Alberta</option>
-                        <option value="BC">British Columbia</option>
-                        <option value="MB">Manitoba</option>
-                        <option value="NB">New Brunswick</option>
-                        <option value="NL">Newfoundland and Labrador</option>
-                        <option value="NS">Nova Scotia</option>
-                        <option value="ON" selected>Ontario</option>
-                        <option value="PE">Prince Edward Island</option>
-                        <option value="QC">Quebec</option>
-                        <option value="SK">Saskatchewan</option>
-                        <option value="NT">Northwest Territories</option>
-                        <option value="NU">Nunavut</option>
-                        <option value="YT">Yukon</option>
+                        <option data-i18n-province="AB" value="AB">{{ t["provinces"]["AB"] }}</option>
+                        <option data-i18n-province="BC" value="BC">{{ t["provinces"]["BC"] }}</option>
+                        <option data-i18n-province="MB" value="MB">{{ t["provinces"]["MB"] }}</option>
+                        <option data-i18n-province="NB" value="NB">{{ t["provinces"]["NB"] }}</option>
+                        <option data-i18n-province="NL" value="NL">{{ t["provinces"]["NL"] }}</option>
+                        <option data-i18n-province="NS" value="NS">{{ t["provinces"]["NS"] }}</option>
+                        <option data-i18n-province="ON" value="ON" selected>{{ t["provinces"]["ON"] }}</option>
+                        <option data-i18n-province="PE" value="PE">{{ t["provinces"]["PE"] }}</option>
+                        <option data-i18n-province="QC" value="QC">{{ t["provinces"]["QC"] }}</option>
+                        <option data-i18n-province="SK" value="SK">{{ t["provinces"]["SK"] }}</option>
+                        <option data-i18n-province="NT" value="NT">{{ t["provinces"]["NT"] }}</option>
+                        <option data-i18n-province="NU" value="NU">{{ t["provinces"]["NU"] }}</option>
+                        <option data-i18n-province="YT" value="YT">{{ t["provinces"]["YT"] }}</option>
 
                     </select>
 
@@ -191,10 +197,23 @@
 
                 </div>
 
+                <!-- Language -->
+                <div class="relative flex items-center">
+                    <label for="language-select" class="sr-only" data-i18n="language">{{ t["language"] }}</label>
+                    <select id="language-select" aria-label="{{ t['language'] }}" data-i18n-aria-label="language" data-i18n-aria-label="language"
+                            class="appearance-none pl-3 pr-8 py-2 min-w-[72px] text-sm font-semibold bg-white border border-gray-300 rounded-md text-[#002147] cursor-pointer hover:bg-gray-50 focus:outline-none transition duration-200">
+                        <option value="en" {% if language == 'en' %}selected{% endif %}>EN</option>
+                        <option value="fr" {% if language == 'fr' %}selected{% endif %}>FR</option>
+                    </select>
+                    <svg class="pointer-events-none absolute right-2.5 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                </div>
+
                 <!-- Accessibility -->
                 <div class="relative">
 
-                    <button id="accessibility-toggle"
+                    <button id="accessibility-toggle" data-i18n-aria-label="accessibility_settings"
                             type="button"
                             onclick="toggleAccessibility()"
                             class="px-3 py-2 text-sm font-bold
@@ -204,7 +223,7 @@
                                    transition duration-200"
                             aria-expanded="false"
                             aria-controls="accessibility-panel"
-                            aria-label="Accessibility settings">
+                            aria-label="{{ t['accessibility_settings'] }}" data-i18n-aria-label="accessibility_settings">
                         Aa
                     </button>
 
@@ -215,8 +234,8 @@
                                 shadow-lg z-50">
 
                         <div class="text-xs font-bold uppercase
-                                    tracking-wider mb-3">
-                            Text Size
+                                    tracking-wider mb-3" data-i18n="text_size">
+                            {{ t["text_size"] }}
                         </div>
 
                         <div class="flex gap-2">
@@ -224,22 +243,22 @@
                             <button onclick="changeFontSize('small')"
                                     class="flex-1 px-2 py-2 text-xs font-semibold
                                            bg-white border border-gray-300
-                                           rounded hover:bg-gray-100">
-                                Small
+                                           rounded hover:bg-gray-100" data-i18n="small">
+                                {{ t["small"] }}
                             </button>
 
                             <button onclick="changeFontSize('medium')"
                                     class="flex-1 px-2 py-2 text-sm font-bold
                                            bg-white border border-gray-300
-                                           rounded hover:bg-gray-100">
-                                Medium
+                                           rounded hover:bg-gray-100" data-i18n="medium">
+                                {{ t["medium"] }}
                             </button>
 
                             <button onclick="changeFontSize('large')"
                                     class="flex-1 px-2 py-2 text-base font-black
                                            bg-white border border-gray-300
-                                           rounded hover:bg-gray-100">
-                                Large
+                                           rounded hover:bg-gray-100" data-i18n="large">
+                                {{ t["large"] }}
                             </button>
 
                         </div>
@@ -257,8 +276,8 @@
                                rounded-md
                                hover:opacity-90
                                transition duration-200"
-                        aria-label="Toggle light and dark theme">
-                    ☀ Light
+                        aria-label="{{ t['toggle_theme'] }}" data-i18n-aria-label="toggle_theme">
+                    ☀ {{ t["light"] }}
                 </button>
 
             </div>
@@ -272,7 +291,7 @@
 
     <footer class="bg-[#002147] text-white py-12 px-6 border-t border-gray-700">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <p class="text-sm opacity-70">© 2026 kazilaw. Legal info only, not legal advice.</p>
+            <p class="text-sm opacity-70">© 2026 kazilaw. <span data-i18n="footer_disclaimer">{{ t["footer_disclaimer"] }}</span></p>
         </div>
     </footer>
 
@@ -319,8 +338,8 @@
         if (!button) return;
 
         button.textContent = isDark
-            ? '☾ Dark'
-            : '☀ Light';
+            ? `☾ ${window.kazilawI18n.dark}`
+            : `☀ ${window.kazilawI18n.light}`;
     }
 
     function toggleTheme() {
@@ -351,15 +370,87 @@
             dynamicText.textContent =
                 dropdown.options[dropdown.selectedIndex].text;
         }
+    }
 
-        // Pages can respond to province changes with their own content.
-        if (typeof window.renderLawyersByProvince === 'function') {
-            window.renderLawyersByProvince(dropdown.value);
+    function applyLanguage(language) {
+        const selected = language === 'fr' ? 'fr' : 'en';
+        const dictionary = window.kazilawAllTranslations[selected];
+        window.kazilawLanguage = selected;
+        Object.assign(window.kazilawI18n, dictionary);
+        document.documentElement.lang = selected === 'fr' ? 'fr-CA' : 'en-CA';
+
+        document.querySelectorAll('[data-i18n]').forEach((element) => {
+            const key = element.dataset.i18n;
+            if (Object.prototype.hasOwnProperty.call(dictionary, key)) element.textContent = dictionary[key];
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach((element) => {
+            const key = element.dataset.i18nPlaceholder;
+            if (dictionary[key] !== undefined) element.setAttribute('placeholder', dictionary[key]);
+        });
+        document.querySelectorAll('[data-i18n-aria-label]').forEach((element) => {
+            const key = element.dataset.i18nAriaLabel;
+            if (dictionary[key] !== undefined) element.setAttribute('aria-label', dictionary[key]);
+        });
+        document.querySelectorAll('[data-i18n-province]').forEach((element) => {
+            const code = element.dataset.i18nProvince;
+            if (dictionary.provinces[code] !== undefined) element.textContent = dictionary.provinces[code];
+        });
+
+        const titleKey = document.body.dataset.titleKey;
+        if (titleKey && dictionary[titleKey]) {
+            document.title = titleKey === 'landing_meta_title' || titleKey === 'not_found_title'
+                ? dictionary[titleKey]
+                : `${dictionary[titleKey]} | kazilaw`;
+        }
+        updateThemeButton(document.documentElement.classList.contains('dark-theme'));
+        updatePageProvinceText();
+    }
+
+    async function setLanguage(language) {
+        const selected = language === 'fr' ? 'fr' : 'en';
+        if (selected === window.kazilawLanguage) return;
+        document.cookie = `kazilaw_language=${selected}; Path=/; Max-Age=31536000; SameSite=Lax`;
+        applyLanguage(selected);
+
+        const output = document.getElementById('analysisOutput') || document.getElementById('answerArea');
+        const container = document.getElementById('resultContainer');
+        const source = window.kazilawRawResult;
+        if (output && container && !container.classList.contains('hidden') && source) {
+            const previousHtml = output.innerHTML;
+            const requestId = (window.kazilawTranslationRequestId || 0) + 1;
+            window.kazilawTranslationRequestId = requestId;
+            output.textContent = window.kazilawI18n.translating_result;
+            const payload = new FormData();
+            payload.append('text', source);
+            payload.append('language', selected);
+            try {
+                const response = await fetch('/translate-result', { method: 'POST', body: payload });
+                if (!response.ok) throw new Error('Translation request failed');
+                const data = await response.json();
+                if (requestId !== window.kazilawTranslationRequestId) return;
+                if (data.answer) {
+                    window.kazilawRawResult = data.answer;
+                    output.innerHTML = marked.parse(data.answer);
+                } else {
+                    output.innerHTML = previousHtml;
+                }
+            } catch (error) {
+                if (requestId === window.kazilawTranslationRequestId) {
+                    output.innerHTML = previousHtml;
+                    window.alert(window.kazilawI18n.result_translation_error);
+                }
+                console.error('Could not translate the displayed result:', error);
+            }
         }
     }
 
     function initializeApp() {
         const dropdown = document.getElementById('province-select');
+        const languageDropdown = document.getElementById('language-select');
+
+        if (languageDropdown) {
+            languageDropdown.addEventListener('change', () => setLanguage(languageDropdown.value));
+        }
 
         // Restore font size
         const savedSize = localStorage.getItem('preferred-font-size');

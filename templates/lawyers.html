@@ -1,42 +1,168 @@
 {% extends "base.html" %}
 
+{% block title %}Labour & Employment Lawyer Directory | kazilaw{% endblock %}
+
 {% block content %}
-<div class="bg-[var(--bg-primary)] text-[var(--text-primary)] min-h-screen transition-colors duration-300">
-    <header class="bg-[#002147] text-white py-12 px-6 border-b-4 border-gold">
-        <div class="max-w-6xl mx-auto">
-            <h1 class="text-4xl font-serif font-bold mb-2 uppercase tracking-tight">Legal Directory</h1>
-            <p class="text-lg text-gray-300 font-light italic"> Certified Specialists in Labour and Employment Law</p>
-        </div>
-    </header>
+<style>
+    .directory-hero {
+        background: #002147;
+        color: #fff;
+        border-bottom: 4px solid #D4AF37;
+    }
+    .directory-wrap { max-width: 1180px; margin: 0 auto; padding: 2rem 1.25rem 3.5rem; }
+    .directory-heading { font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.15; font-weight: 700; }
+    .directory-subtitle { max-width: 780px; line-height: 1.6; color: #e5e7eb; }
+    .directory-summary {
+        display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline;
+        gap: .75rem; margin-bottom: 1.25rem;
+    }
+    .directory-summary h2 { font-size: 1.5rem; font-weight: 700; }
+    .directory-count { font-size: .95rem; color: #526173; }
+    .dark-theme .directory-count { color: #d4deea; }
+    .lawyer-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+    .lawyer-card {
+        min-width: 0; display: flex; flex-direction: column; gap: .8rem;
+        background: var(--bg-card); color: var(--text-primary);
+        border: 1px solid var(--border-color); border-radius: .5rem;
+        padding: 1.35rem; box-shadow: 0 2px 8px rgba(0,0,0,.05);
+        transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .lawyer-card:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,.1); }
+    .lawyer-card-top { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; justify-content: space-between; }
+    .lawyer-city {
+        display: inline-block; font-size: .82rem; line-height: 1.3; font-weight: 700;
+        padding: .35rem .55rem; border-radius: .25rem; background: rgba(212,175,55,.15);
+    }
+    .lawyer-card h3 { font-size: 1.28rem; line-height: 1.3; font-weight: 700; overflow-wrap: anywhere; }
+    .lawyer-firm { font-weight: 600; line-height: 1.45; }
+    .lawyer-focus { font-size: .95rem; line-height: 1.5; opacity: .85; }
+    .lawyer-links { display: flex; flex-wrap: wrap; gap: .6rem 1rem; margin-top: auto; padding-top: .3rem; }
+    .lawyer-links a { color: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+    .lawyer-links a:hover { color: #946f00; }
+    .directory-note {
+        margin-top: 2rem; padding: 1rem 1.1rem; border-left: 4px solid #D4AF37;
+        background: rgba(212,175,55,.09); line-height: 1.6;
+    }
+    .directory-empty {
+        padding: 1.5rem; border: 1px solid var(--border-color); border-radius: .5rem;
+        background: var(--bg-card); line-height: 1.6;
+    }
+    @media (max-width: 960px) { .lawyer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 620px) {
+        .lawyer-grid { grid-template-columns: 1fr; }
+        .directory-wrap { padding: 1.5rem 1rem 2.5rem; }
+        .lawyer-card { padding: 1.15rem; }
+    }
+</style>
 
-    <main class="max-w-6xl mx-auto py-12 px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for lawyer in specialists %}
-            <div class="group bg-[var(--bg-card)] border border-[var(--border-color)] p-6 md:p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                <div class="flex justify-between items-start mb-4">
-                    <span class="text-xs font-bold text-gold bg-gold/10 px-2 py-1 uppercase tracking-widest">{{ lawyer.city }}</span>
-                    <span class="font-serif font-bold text-lg">C.S.</span>
-                </div>
-                
-                <h3 class="text-2xl font-serif font-bold mb-2 group-hover:text-gold transition-colors">{{ lawyer.name }}</h3>
-                
-                <div class="h-px w-12 bg-gold mb-4 group-hover:w-full transition-all duration-500"></div>
-                
-                <div class="text-sm mb-6">
-                    <p class="opacity-60 uppercase text-[10px] font-bold tracking-widest mb-1">Business Name</p>
-                    <p class="font-medium leading-tight">{{ lawyer.firm }}</p>
-                </div>
+<header class="directory-hero py-10 px-5 md:px-6">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="directory-heading mb-3">Labour &amp; Employment Lawyer Directory</h1>
+        <p class="directory-subtitle text-base md:text-lg">
+            Browse lawyers whose published profiles identify an employment or labour law practice.
+            Choose a province or territory to update the directory.
+        </p>
+    </div>
+</header>
 
-                <a href="https://lso.ca/directory-of-certified-specialists/labour-law" target="_blank" class="text-xs font-black uppercase border-b border-[var(--text-primary)] hover:text-gold hover:border-gold transition pb-1">
-                    Verify Standing
-                </a>
-            </div>
-            {% endfor %}
-        </div>
+<main class="directory-wrap" id="lawyer-directory" aria-labelledby="directory-province-heading">
+    <div class="directory-summary">
+        <h2 id="directory-province-heading">Ontario</h2>
+        <p class="directory-count" id="directory-result-count" role="status" aria-live="polite">Loading lawyer profiles…</p>
+    </div>
 
-        <!-- <footer class="mt-20 py-8 border-t border-[var(--border-color)] text-center opacity-60 text-[10px] uppercase tracking-widest">
-            Source: Law Society of Ontario
-        </footer> -->
-    </main>
-</div>
+    <div id="lawyer-results" class="lawyer-grid" aria-live="polite"></div>
+
+    <section class="directory-note" aria-label="Directory information">
+        <p><strong>Before contacting a lawyer:</strong> Use the profile or firm link to confirm the lawyer’s current practice details. The regulator link on each listing opens the relevant law society or bar association. Confirm current licence status, location, fees, and whether the lawyer acts for employees, unions, employers, or more than one client group.</p>
+        <p class="mt-2">These listings are a starting point, not a ranking or endorsement. Some smaller jurisdictions have fewer publicly documented employment/labour profiles, so fewer than 10 results may be shown when additional local profiles could not be reliably substantiated.</p>
+    </section>
+</main>
+
+<script>
+(function () {
+    const directoryData = {"regulators": {"AB": {"name": "Alberta", "url": "https://www.lawsociety.ab.ca"}, "BC": {"name": "British Columbia", "url": "https://lawsociety.bc.ca"}, "MB": {"name": "Manitoba", "url": "https://lawsociety.mb.ca"}, "NB": {"name": "New Brunswick", "url": "https://lawsociety-barreau.nb.ca"}, "NL": {"name": "Newfoundland and Labrador", "url": "https://lawsociety.nf.ca"}, "NS": {"name": "Nova Scotia", "url": "https://nsbs.org"}, "ON": {"name": "Ontario", "url": "https://lso.ca"}, "PE": {"name": "Prince Edward Island", "url": "https://lawsocietypei.ca"}, "QC": {"name": "Quebec", "url": "https://www.barreau.qc.ca"}, "SK": {"name": "Saskatchewan", "url": "https://lawsociety.sk.ca"}, "NT": {"name": "Northwest Territories", "url": "https://lawsociety.nt.ca"}, "NU": {"name": "Nunavut", "url": "https://lawsociety.nu.ca"}, "YT": {"name": "Yukon", "url": "https://lawsocietyyukon.com"}}, "lawyersByProvince": {"AB": [{"name": "Chris Lane, K.C.", "firm": "McLennan Ross LLP", "city": "Edmonton", "profile": "https://www.mross.com/our-team/bio/chris-lane", "focus": "Employment and labour law"}, {"name": "Dave Ross, K.C.", "firm": "McLennan Ross LLP", "city": "Edmonton", "profile": "https://www.mross.com/our-team/bio/dave-ross", "focus": "Employment and labour law"}, {"name": "Tom Ross, K.C.", "firm": "McLennan Ross LLP", "city": "Calgary", "profile": "https://www.mross.com/our-team/bio/tom-ross", "focus": "Employment and labour law"}, {"name": "Steven Dollansky", "firm": "McLennan Ross LLP", "city": "Edmonton", "profile": "https://www.mross.com/our-team/bio/steven-dollansky", "focus": "Employment and labour law"}, {"name": "Timothy Mitchell, K.C.", "firm": "McLennan Ross LLP", "city": "Calgary", "profile": "https://www.mross.com/our-team/bio/timothy-mitchell", "focus": "Employment and labour law"}, {"name": "Michael Aasen", "firm": "McLennan Ross LLP", "city": "Calgary", "profile": "https://www.mross.com/our-team/bio/michael-aasen", "focus": "Employment and labour law"}, {"name": "Rebecca Silverberg", "firm": "McLennan Ross LLP", "city": "Calgary", "profile": "https://www.mross.com/our-team/bio/rebecca-silverberg", "focus": "Employment and labour law"}, {"name": "Daniel Weber", "firm": "McLennan Ross LLP", "city": "Edmonton", "profile": "https://www.mross.com/our-team/bio/daniel-weber", "focus": "Employment and labour law"}, {"name": "Alison Adam", "firm": "McLennan Ross LLP", "city": "Calgary", "profile": "https://www.mross.com/our-team/bio/alison-adam", "focus": "Employment and labour law"}, {"name": "Stephan Lazarenko", "firm": "Stikeman Elliott LLP", "city": "Calgary", "profile": "https://stikeman.com/en-ca/people/l/stephan-lazarenko", "focus": "Employment and labour law"}, {"name": "David Risling", "firm": "McLennan Ross LLP", "city": "Edmonton", "profile": "https://www.mross.com/our-team/bio/david-risling", "focus": "Employment and labour law"}], "BC": [{"name": "Paige Ainslie", "firm": "Roper Greyell LLP", "city": "Vancouver", "profile": "https://ropergreyell.com/our-people/", "focus": "Employment and labour law"}, {"name": "Sabrina Anis", "firm": "Roper Greyell LLP", "city": "Vancouver", "profile": "https://ropergreyell.com/our-people/", "focus": "Employment and labour law"}, {"name": "Morgan Baker", "firm": "Roper Greyell LLP", "city": "Vancouver", "profile": "https://ropergreyell.com/our-people/", "focus": "Employment and labour law"}, {"name": "Teodora Bardas", "firm": "Roper Greyell LLP", "city": "Vancouver", "profile": "https://ropergreyell.com/our-people/", "focus": "Employment and labour law"}, {"name": "Talia Behrmann", "firm": "Roper Greyell LLP", "city": "Vancouver", "profile": "https://ropergreyell.com/our-people/", "focus": "Employment and labour law"}, {"name": "Julia Bell", "firm": "Roper Greyell LLP", "city": "Vancouver", "profile": "https://ropergreyell.com/our-people/", "focus": "Employment and labour law"}, {"name": "Danny Bernstein", "firm": "Roper Greyell LLP", "city": "Vancouver", "profile": "https://ropergreyell.com/our-people/", "focus": "Employment and labour law"}, {"name": "Gabrielle Berron-Styan", "firm": "Roper Greyell LLP", "city": "Vancouver", "profile": "https://ropergreyell.com/our-people/", "focus": "Employment and labour law"}, {"name": "Eliza Lynn Brown", "firm": "Roper Greyell LLP", "city": "Vancouver", "profile": "https://ropergreyell.com/our-people/", "focus": "Employment and labour law"}, {"name": "Maggie Campbell", "firm": "Roper Greyell LLP", "city": "Vancouver", "profile": "https://ropergreyell.com/our-people/", "focus": "Employment and labour law"}, {"name": "Gabrielle Scorer", "firm": "Roper Greyell LLP", "city": "Vancouver", "profile": "https://ropergreyell.com/our-people/", "focus": "Employment and labour law"}, {"name": "Nimrit K. Sian", "firm": "Roper Greyell LLP", "city": "Vancouver", "profile": "https://ropergreyell.com/our-people/", "focus": "Employment and labour law"}, {"name": "Deborah Cushing", "firm": "Lawson Lundell LLP", "city": "Vancouver", "profile": "https://www.lawsonlundell.com/bio/Deborah-Cushing", "focus": "Employment and labour law"}, {"name": "Jeff Bastien", "firm": "Lawson Lundell LLP", "city": "Vancouver", "profile": "https://www.lawsonlundell.com/bio/jeff-bastien", "focus": "Employment and labour law"}, {"name": "Nicole K. Skuggedal", "firm": "Lawson Lundell LLP", "city": "Vancouver", "profile": "https://www.lawsonlundell.com/bio/nicole-skuggedal", "focus": "Employment and labour law"}], "MB": [{"name": "Keith David LaBossiere, K.C.", "firm": "Thompson Dorfman Sweatman LLP", "city": "Winnipeg", "profile": "https://www.tdslaw.com/services/labour-employment/", "focus": "Employment and labour law"}, {"name": "Kassi Delorey", "firm": "Thompson Dorfman Sweatman LLP", "city": "Portage la Prairie", "profile": "https://www.tdslaw.com/services/labour-employment/", "focus": "Employment and labour law"}, {"name": "Kali Faingold", "firm": "Thompson Dorfman Sweatman LLP", "city": "Winnipeg", "profile": "https://www.tdslaw.com/services/labour-employment/", "focus": "Employment and labour law"}, {"name": "Adrian Frost", "firm": "Thompson Dorfman Sweatman LLP", "city": "Winnipeg", "profile": "https://www.tdslaw.com/services/labour-employment/", "focus": "Employment and labour law"}, {"name": "Maria Grande", "firm": "Thompson Dorfman Sweatman LLP", "city": "Winnipeg", "profile": "https://www.tdslaw.com/services/labour-employment/", "focus": "Employment and labour law"}, {"name": "Miranda Grayson", "firm": "Thompson Dorfman Sweatman LLP", "city": "Winnipeg", "profile": "https://www.tdslaw.com/services/labour-employment/", "focus": "Employment and labour law"}, {"name": "Jennifer (Jen) Hanson", "firm": "Thompson Dorfman Sweatman LLP", "city": "Winnipeg", "profile": "https://www.tdslaw.com/services/labour-employment/", "focus": "Employment and labour law"}, {"name": "Bailey Harris", "firm": "Thompson Dorfman Sweatman LLP", "city": "Winnipeg", "profile": "https://www.tdslaw.com/services/labour-employment/", "focus": "Employment and labour law"}, {"name": "Scott J. Hoeppner", "firm": "Thompson Dorfman Sweatman LLP", "city": "Pembina Valley / Winnipeg", "profile": "https://www.tdslaw.com/services/labour-employment/", "focus": "Employment and labour law"}, {"name": "Alex Leaver", "firm": "Thompson Dorfman Sweatman LLP", "city": "Winnipeg", "profile": "https://www.tdslaw.com/services/labour-employment/", "focus": "Employment and labour law"}, {"name": "Eli Milner", "firm": "Thompson Dorfman Sweatman LLP", "city": "Winnipeg", "profile": "https://www.tdslaw.com/services/labour-employment/", "focus": "Employment and labour law"}, {"name": "Laura Minuk", "firm": "Thompson Dorfman Sweatman LLP", "city": "Winnipeg", "profile": "https://www.tdslaw.com/services/labour-employment/", "focus": "Employment and labour law"}, {"name": "Robert Olson", "firm": "Thompson Dorfman Sweatman LLP", "city": "Winnipeg", "profile": "https://www.tdslaw.com/services/labour-employment/", "focus": "Employment and labour law"}, {"name": "Robyn Otto", "firm": "Thompson Dorfman Sweatman LLP", "city": "Winnipeg", "profile": "https://www.tdslaw.com/services/labour-employment/", "focus": "Employment and labour law"}, {"name": "Meghan Ross", "firm": "Thompson Dorfman Sweatman LLP", "city": "Winnipeg", "profile": "https://www.tdslaw.com/services/labour-employment/", "focus": "Employment and labour law"}], "NB": [{"name": "Jessica Bungay", "firm": "Cox & Palmer", "city": "Fredericton", "profile": "https://coxandpalmerlaw.com/people/jessica-bungay/", "focus": "Employment and labour law"}, {"name": "Meaghan MacMaster", "firm": "Stewart McKelvey", "city": "Saint John", "profile": "https://stewartmckelvey.com/people/macmaster-meaghan/", "focus": "Employment and labour law"}, {"name": "Clarence Bennett, K.C.", "firm": "Stewart McKelvey", "city": "Fredericton", "profile": "https://stewartmckelvey.com/people/bennett-clarence/", "focus": "Employment and labour law"}, {"name": "James F. LeMesurier, K.C.", "firm": "Stewart McKelvey", "city": "Saint John", "profile": "https://stewartmckelvey.com/people/lemesurier-james-f/", "focus": "Employment and labour law"}, {"name": "Diana Iancu", "firm": "Stewart McKelvey", "city": "Moncton", "profile": "https://stewartmckelvey.com/people/iancu-diana/", "focus": "Employment and labour law"}, {"name": "Sacha Morisset, K.C.", "firm": "Stewart McKelvey", "city": "Moncton", "profile": "https://stewartmckelvey.com/people/morisset-sacha/", "focus": "Employment and labour law"}, {"name": "Tristian J. Gaudet", "firm": "Stewart McKelvey", "city": "Moncton", "profile": "https://stewartmckelvey.com/people/gaudet-tristian/", "focus": "Employment and labour law"}, {"name": "Caitlin Grogan", "firm": "Stewart McKelvey", "city": "Saint John", "profile": "https://stewartmckelvey.com/people/grogan-caitlin/", "focus": "Employment and labour law"}], "NL": [{"name": "Stephen Penney", "firm": "Stewart McKelvey", "city": "St. John's", "profile": "https://stewartmckelvey.com/people/penney-stephen/", "focus": "Employment and labour law"}, {"name": "Meghan Foley", "firm": "Stewart McKelvey", "city": "St. John's", "profile": "https://stewartmckelvey.com/people/foley-meghan/", "focus": "Employment and labour law"}, {"name": "Siân Evans", "firm": "Stewart McKelvey", "city": "St. John's", "profile": "https://stewartmckelvey.com/people/evans-sian/", "focus": "Employment and labour law"}, {"name": "Jayna Green", "firm": "Stewart McKelvey", "city": "St. John's", "profile": "https://stewartmckelvey.com/people/green-jayna/", "focus": "Employment and labour law"}, {"name": "Caroline Molloy", "firm": "McInnes Cooper", "city": "St. John's", "profile": "https://www.mcinnescooper.com/people/caroline-molloy/", "focus": "Employment and labour law"}, {"name": "Stephanie Sheppard", "firm": "McInnes Cooper", "city": "St. John's", "profile": "https://www.mcinnescooper.com/people/stephanie-sheppard/", "focus": "Employment and labour law"}, {"name": "Chris King, K.C.", "firm": "McInnes Cooper", "city": "St. John's", "profile": "https://www.mcinnescooper.com/people/chris-king/", "focus": "Employment and labour law"}, {"name": "Darren Stratton", "firm": "McInnes Cooper", "city": "St. John's", "profile": "https://www.mcinnescooper.com/people/darren-stratton/", "focus": "Employment and labour law"}, {"name": "Amanda Nash", "firm": "McInnes Cooper", "city": "St. John's", "profile": "https://www.mcinnescooper.com/people/amanda-nash/", "focus": "Employment and labour law"}, {"name": "Gregory Anthony", "firm": "McInnes Cooper", "city": "St. John's", "profile": "https://www.mcinnescooper.com/people/gregory-anthony/", "focus": "Employment and labour law"}], "NS": [{"name": "Sean Kelly", "firm": "Stewart McKelvey", "city": "Halifax", "profile": "https://stewartmckelvey.com/people/kelly-sean/", "focus": "Employment and labour law"}, {"name": "Rebecca Saturley, K.C.", "firm": "Stewart McKelvey", "city": "Halifax", "profile": "https://stewartmckelvey.com/people/saturley-rebecca/", "focus": "Employment and labour law"}, {"name": "Killian McParland", "firm": "Stewart McKelvey", "city": "Halifax", "profile": "https://stewartmckelvey.com/people/mcparland-killian/", "focus": "Employment and labour law"}, {"name": "Zoë Roberts", "firm": "Stewart McKelvey", "city": "Halifax", "profile": "https://stewartmckelvey.com/people/roberts-zoe/", "focus": "Employment and labour law"}, {"name": "Onye Njoku", "firm": "Stewart McKelvey", "city": "Halifax", "profile": "https://stewartmckelvey.com/people/njoku-onye/", "focus": "Employment and labour law"}, {"name": "Mark Tector", "firm": "Stewart McKelvey", "city": "Halifax", "profile": "https://stewartmckelvey.com/people/tector-mark/", "focus": "Employment and labour law"}, {"name": "Sophie Poulos", "firm": "Stewart McKelvey", "city": "Halifax", "profile": "https://stewartmckelvey.com/people/poulos-sophie-e/", "focus": "Employment and labour law"}, {"name": "Ben J. Johnson", "firm": "Cox & Palmer", "city": "Halifax", "profile": "https://coxandpalmerlaw.com/people/ben-j-johnson/", "focus": "Employment and labour law"}, {"name": "Alex Hyndman", "firm": "McInnes Cooper", "city": "Halifax", "profile": "https://www.mcinnescooper.com/people/alex-hyndman/", "focus": "Employment and labour law"}, {"name": "Anna-Marie Manley", "firm": "Patterson Law", "city": "Truro / Halifax", "profile": "https://pattersonlaw.ca/people/anna-marie-manley/", "focus": "Employment and labour law"}], "ON": [{"name": "David McQuillan", "firm": "Cavalluzzo LLP", "city": "Toronto", "profile": "https://www.cavalluzzo.com/lawyers/bio/david-mcquillan", "focus": "Employment and labour law"}, {"name": "Adriana Zichy", "firm": "Cavalluzzo LLP", "city": "Toronto", "profile": "https://www.cavalluzzo.com/lawyers/bio/adriana-zichy", "focus": "Employment and labour law"}, {"name": "Stephen Moreau", "firm": "Cavalluzzo LLP", "city": "Toronto", "profile": "https://www.cavalluzzo.com/lawyers/bio/stephen-moreau", "focus": "Employment and labour law"}, {"name": "Newsha Zargaran", "firm": "Cavalluzzo LLP", "city": "Toronto", "profile": "https://www.cavalluzzo.com/lawyers/bio/newsha-zargaran", "focus": "Employment and labour law"}, {"name": "Justin Nathens", "firm": "Cavalluzzo LLP", "city": "Toronto", "profile": "https://www.cavalluzzo.com/lawyers/bio/justin-nathens", "focus": "Employment and labour law"}, {"name": "Gita Anand", "firm": "Sherrard Kuzz LLP", "city": "Toronto", "profile": "https://www.sherrardkuzz.com/staff/gita-anand/", "focus": "Employment and labour law"}, {"name": "Alice Wang", "firm": "Sherrard Kuzz LLP", "city": "Toronto", "profile": "https://www.sherrardkuzz.com/staff/alice-wang/", "focus": "Employment and labour law"}, {"name": "Thomas J. Gorsky", "firm": "Sherrard Kuzz LLP", "city": "Toronto", "profile": "https://www.sherrardkuzz.com/staff/thomas-j-gorsky/", "focus": "Employment and labour law"}, {"name": "Sundeep A. Gokhale", "firm": "Sherrard Kuzz LLP", "city": "Toronto", "profile": "https://www.sherrardkuzz.com/staff/sundeep-a-gokhale/", "focus": "Employment and labour law"}, {"name": "Dimitrios (Jim) Molos", "firm": "Sherrard Kuzz LLP", "city": "Toronto", "profile": "https://www.sherrardkuzz.com/staff/dimitrios-jim-molos/", "focus": "Employment and labour law"}, {"name": "Anja Kohlman Sawa", "firm": "Sherrard Kuzz LLP", "city": "Toronto", "profile": "https://www.sherrardkuzz.com/staff/anja-kohlman-sawa/", "focus": "Employment and labour law"}, {"name": "Sarah MacKay Marton", "firm": "Sherrard Kuzz LLP", "city": "Toronto", "profile": "https://www.sherrardkuzz.com/staff/sarah-mackay-marton/", "focus": "Employment and labour law"}, {"name": "Sophia Adey", "firm": "Sherrard Kuzz LLP", "city": "Toronto", "profile": "https://www.sherrardkuzz.com/staff/sophia-adey/", "focus": "Employment and labour law"}], "PE": [{"name": "Murray L. Murphy, K.C.", "firm": "Stewart McKelvey", "city": "Charlottetown", "profile": "https://stewartmckelvey.com/people/murphy-murray-l/", "focus": "Employment and labour law"}, {"name": "Jacob Zelman", "firm": "Stewart McKelvey", "city": "Charlottetown", "profile": "https://stewartmckelvey.com/people/zelman-jacob/", "focus": "Employment and labour law"}, {"name": "Janet Clark, K.C.", "firm": "Stewart McKelvey", "city": "Charlottetown", "profile": "https://stewartmckelvey.com/people/clark-janet/", "focus": "Employment and labour law"}, {"name": "Kate Profit", "firm": "Stewart McKelvey", "city": "Charlottetown", "profile": "https://stewartmckelvey.com/people/profit-kate/", "focus": "Employment and labour law"}, {"name": "Kaylee M. Campbell", "firm": "Cox & Palmer", "city": "Charlottetown", "profile": "https://coxandpalmerlaw.com/people/kaylee-m-campbell/", "focus": "Employment and labour law"}, {"name": "Meaghan Hughes", "firm": "Cox & Palmer", "city": "Charlottetown", "profile": "https://coxandpalmerlaw.com/people/meaghan-hughes/", "focus": "Employment and labour law"}, {"name": "Maggie Hughes", "firm": "Cox & Palmer", "city": "Charlottetown", "profile": "https://coxandpalmerlaw.com/people/maggie-hughes/", "focus": "Employment and labour law"}, {"name": "Jacob D. Ezeard", "firm": "Cox & Palmer", "city": "Charlottetown", "profile": "https://coxandpalmerlaw.com/people/jacob-d-ezeard/", "focus": "Employment and labour law"}, {"name": "James W.E.B. Profit", "firm": "Cox & Palmer", "city": "Summerside", "profile": "https://coxandpalmerlaw.com/people/james-w-e-b-profit/", "focus": "Employment and labour law"}], "QC": [{"name": "Annie Bourgeois", "firm": "Langlois Lawyers", "city": "Montréal / Québec City", "profile": "https://langlois.ca/en/practice-areas/labour-employment-law/employment-law/", "focus": "Employment and labour law"}, {"name": "Sarto Veilleux", "firm": "Langlois Lawyers", "city": "Québec City", "profile": "https://langlois.ca/en/practice-areas/labour-employment-law/employment-law/", "focus": "Employment and labour law"}, {"name": "Sylvain Toupin", "firm": "Langlois Lawyers", "city": "Montréal", "profile": "https://langlois.ca/en/practice-areas/labour-employment-law/employment-law/", "focus": "Employment and labour law"}, {"name": "Pierre-Olivier Lessard", "firm": "Langlois Lawyers", "city": "Québec City", "profile": "https://langlois.ca/en/practice-areas/labour-employment-law/employment-law/", "focus": "Employment and labour law"}, {"name": "Catherine Biron", "firm": "Langlois Lawyers", "city": "Montréal", "profile": "https://langlois.ca/en/practice-areas/labour-employment-law/labour-relations/", "focus": "Employment and labour law"}, {"name": "Marie-Hélène Jetté", "firm": "Langlois Lawyers", "city": "Montréal", "profile": "https://langlois.ca/en/practice-areas/labour-employment-law/labour-relations/", "focus": "Employment and labour law"}, {"name": "Marianne Plamondon", "firm": "Langlois Lawyers", "city": "Montréal", "profile": "https://langlois.ca/en/practice-areas/labour-employment-law/labour-relations/", "focus": "Employment and labour law"}, {"name": "André Sasseville", "firm": "Langlois Lawyers", "city": "Montréal", "profile": "https://langlois.ca/en/practice-areas/labour-employment-law/strategic-hr-advice/", "focus": "Employment and labour law"}, {"name": "Alexandre Boisjoly-Rivest", "firm": "Stikeman Elliott LLP", "city": "Montréal", "profile": "https://stikeman.com/en-ca/people/b/alexandre-boisjoly-rivest", "focus": "Employment and labour law"}, {"name": "Patrick Essiminy", "firm": "Stikeman Elliott LLP", "city": "Montréal", "profile": "https://stikeman.com/en-ca/people/e/patrick-essiminy", "focus": "Employment and labour law"}], "SK": [{"name": "George A. Green, K.C.", "firm": "McKercher LLP", "city": "Saskatoon", "profile": "https://www.mckercher.ca/en/service/labour-and-employment-law", "focus": "Employment and labour law"}, {"name": "Daniel P. Kwochka", "firm": "McKercher LLP", "city": "Regina", "profile": "https://www.mckercher.ca/en/service/labour-and-employment-law", "focus": "Employment and labour law"}, {"name": "Robert J. Affleck", "firm": "McKercher LLP", "city": "Saskatoon", "profile": "https://www.mckercher.ca/en/service/labour-and-employment-law", "focus": "Employment and labour law"}, {"name": "Kit McGuinness", "firm": "McKercher LLP", "city": "Saskatoon", "profile": "https://www.mckercher.ca/en/service/labour-and-employment-law", "focus": "Employment and labour law"}, {"name": "Marie K. Stack", "firm": "McKercher LLP", "city": "Saskatoon", "profile": "https://www.mckercher.ca/en/service/labour-and-employment-law", "focus": "Employment and labour law"}, {"name": "Katherine S. Melnychuk", "firm": "McKercher LLP", "city": "Regina", "profile": "https://www.mckercher.ca/en/service/labour-and-employment-law", "focus": "Employment and labour law"}, {"name": "John R. Beckman, K.C.", "firm": "McKercher LLP", "city": "Saskatoon", "profile": "https://www.mckercher.ca/en/service/labour-and-employment-law", "focus": "Employment and labour law"}, {"name": "Brendan J. Campbell", "firm": "McKercher LLP", "city": "Saskatoon", "profile": "https://www.mckercher.ca/en/service/labour-and-employment-law", "focus": "Employment and labour law"}, {"name": "Erica E. Focht", "firm": "McKercher LLP", "city": "Regina", "profile": "https://www.mckercher.ca/en/service/labour-and-employment-law", "focus": "Employment and labour law"}, {"name": "Michael A. MacDonald", "firm": "McKercher LLP", "city": "Saskatoon", "profile": "https://www.mckercher.ca/en/service/labour-and-employment-law", "focus": "Employment and labour law"}, {"name": "Curtis J. Onishenko, K.C.", "firm": "McKercher LLP", "city": "Saskatoon", "profile": "https://www.mckercher.ca/en/service/labour-and-employment-law", "focus": "Employment and labour law"}, {"name": "Annie B. Quangtakoune", "firm": "McKercher LLP", "city": "Regina", "profile": "https://www.mckercher.ca/en/service/labour-and-employment-law", "focus": "Employment and labour law"}, {"name": "Graham E. Quick", "firm": "McKercher LLP", "city": "Regina", "profile": "https://www.mckercher.ca/en/service/labour-and-employment-law", "focus": "Employment and labour law"}, {"name": "Audrey L. Sembalerus", "firm": "McKercher LLP", "city": "Saskatoon", "profile": "https://www.mckercher.ca/en/service/labour-and-employment-law", "focus": "Employment and labour law"}], "NT": [{"name": "Stefanie Laurella", "firm": "Lawson Lundell LLP", "city": "Yellowknife", "profile": "https://www.lawsonlundell.com/bio/stefanie-laurella", "focus": "Employment and labour law"}, {"name": "Sandra P. MacKenzie", "firm": "Lawson Lundell LLP", "city": "Yellowknife", "profile": "https://www.lawsonlundell.com/bio/sandra-macKenzie", "focus": "Employment and labour law"}, {"name": "Chris Lane, K.C.", "firm": "McLennan Ross LLP", "city": "Edmonton / Yellowknife", "profile": "https://www.mross.com/our-team/bio/chris-lane", "focus": "Employment and labour law"}, {"name": "Neil Tichkowsky", "firm": "Lawson Lundell LLP", "city": "Calgary / Northwest Territories", "profile": "https://www.lawsonlundell.com/bio/Neil-Tichkowsky", "focus": "Employment and labour law"}, {"name": "Nicole K. Skuggedal", "firm": "Lawson Lundell LLP", "city": "Vancouver / Northwest Territories", "profile": "https://www.lawsonlundell.com/bio/nicole-skuggedal", "focus": "Employment and labour law"}, {"name": "Deborah Cushing", "firm": "Lawson Lundell LLP", "city": "Vancouver / Northwest Territories", "profile": "https://www.lawsonlundell.com/bio/Deborah-Cushing", "focus": "Employment and labour law"}, {"name": "Michelle Thériault", "firm": "McLennan Ross LLP", "city": "Yellowknife", "profile": "https://www.mross.com/our-team/bio/michelle-theriault", "focus": "Employment and labour law"}, {"name": "Natasha Sanders", "firm": "McLennan Ross LLP", "city": "Yellowknife", "profile": "https://www.mross.com/our-team/bio/natasha-sanders", "focus": "Employment and labour law"}, {"name": "Anthony Espejo", "firm": "McLennan Ross LLP", "city": "Edmonton / Northwest Territories", "profile": "https://www.mross.com/our-team/bio/anthony-espejo", "focus": "Employment and labour law"}, {"name": "Christopher Buchanan", "firm": "McLennan Ross LLP", "city": "Yellowknife / Northern Canada", "profile": "https://www.mross.com/our-team/bio/christopher-buchanan", "focus": "Employment and labour law"}], "NU": [{"name": "Stefanie Laurella", "firm": "Lawson Lundell LLP", "city": "Yellowknife / Nunavut", "profile": "https://www.lawsonlundell.com/bio/stefanie-laurella", "focus": "Employment and labour law"}, {"name": "Sandra P. MacKenzie", "firm": "Lawson Lundell LLP", "city": "Yellowknife / Nunavut", "profile": "https://www.lawsonlundell.com/bio/sandra-macKenzie", "focus": "Employment and labour law"}, {"name": "David Risling, K.C.", "firm": "McLennan Ross LLP", "city": "Edmonton / Nunavut", "profile": "https://www.mross.com/our-team/bio/david-risling", "focus": "Employment and labour law"}, {"name": "Neil Tichkowsky", "firm": "Lawson Lundell LLP", "city": "Calgary / Nunavut", "profile": "https://www.lawsonlundell.com/bio/Neil-Tichkowsky", "focus": "Employment and labour law"}, {"name": "Michelle Thériault", "firm": "McLennan Ross LLP", "city": "Yellowknife / Nunavut", "profile": "https://www.mross.com/our-team/bio/michelle-theriault", "focus": "Employment and labour law"}, {"name": "Gerhard Seifner", "firm": "McLennan Ross LLP", "city": "Edmonton / Nunavut", "profile": "https://www.mross.com/our-team/bio/gerhard-seifner", "focus": "Employment and labour law"}, {"name": "Natasha Sanders", "firm": "McLennan Ross LLP", "city": "Yellowknife / Nunavut", "profile": "https://www.mross.com/our-team/bio/natasha-sanders", "focus": "Employment and labour law"}, {"name": "Christopher Buchanan", "firm": "McLennan Ross LLP", "city": "Yellowknife / Nunavut", "profile": "https://www.mross.com/our-team/bio/christopher-buchanan", "focus": "Employment and labour law"}, {"name": "Teresa Haykowsky, K.C.", "firm": "McLennan Ross LLP", "city": "Edmonton / Nunavut", "profile": "https://www.mross.com/our-team/bio/teresa-haykowsky", "focus": "Employment and labour law"}], "YT": [{"name": "Mark Wallace", "firm": "Austring, Fairman & Fekete", "city": "Whitehorse", "profile": "https://lawyukon.com/practice/labour-and-employment/", "focus": "Employment and labour law"}, {"name": "Nicole K. Skuggedal", "firm": "Lawson Lundell LLP", "city": "Vancouver / Yukon", "profile": "https://www.lawsonlundell.com/bio/nicole-skuggedal", "focus": "Employment and labour law"}, {"name": "Robert Sider", "firm": "Lawson Lundell LLP", "city": "Vancouver / Yukon", "profile": "https://www.lawsonlundell.com/bio/robert-sider", "focus": "Employment and labour law"}, {"name": "Christopher Buchanan", "firm": "McLennan Ross LLP", "city": "Northern Canada", "profile": "https://www.mross.com/our-team/bio/christopher-buchanan", "focus": "Employment and labour law"}, {"name": "Jody Sutherland", "firm": "McLennan Ross LLP", "city": "Calgary / Yukon", "profile": "https://www.mross.com/our-team/bio/jody-sutherland", "focus": "Employment and labour law"}]}};
+    const provinceSelect = document.getElementById('province-select');
+    const heading = document.getElementById('directory-province-heading');
+    const count = document.getElementById('directory-result-count');
+    const results = document.getElementById('lawyer-results');
+
+    function createLink(label, href) {
+        const link = document.createElement('a');
+        link.textContent = label;
+        link.href = href;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        return link;
+    }
+
+    function createLawyerCard(item, regulator) {
+        const card = document.createElement('article');
+        card.className = 'lawyer-card';
+
+        const top = document.createElement('div');
+        top.className = 'lawyer-card-top';
+        const city = document.createElement('span');
+        city.className = 'lawyer-city';
+        city.textContent = item.city;
+        const focus = document.createElement('span');
+        focus.className = 'text-sm font-semibold';
+        focus.textContent = 'Employment & labour';
+        top.append(city, focus);
+
+        const name = document.createElement('h3');
+        name.textContent = item.name;
+
+        const firm = document.createElement('p');
+        firm.className = 'lawyer-firm';
+        firm.textContent = item.firm;
+
+        const note = document.createElement('p');
+        note.className = 'lawyer-focus';
+        note.textContent = item.focus || 'Published profile identifies employment and/or labour law as a practice area.';
+
+        const links = document.createElement('div');
+        links.className = 'lawyer-links';
+        links.append(
+            createLink('View profile / firm source', item.profile),
+            createLink('Check regulator directory', regulator.url)
+        );
+
+        card.append(top, name, firm, note, links);
+        return card;
+    }
+
+    window.renderLawyersByProvince = function (provinceCode) {
+        const province = directoryData.regulators[provinceCode] || directoryData.regulators.ON;
+        const lawyers = directoryData.lawyersByProvince[provinceCode] || [];
+
+        heading.textContent = province.name;
+        count.textContent = lawyers.length + (lawyers.length === 1 ? ' profile' : ' profiles');
+        results.replaceChildren();
+
+        if (provinceSelect && provinceSelect.value !== provinceCode) {
+            provinceSelect.value = provinceCode;
+        }
+
+        if (lawyers.length === 0) {
+            const empty = document.createElement('div');
+            empty.className = 'directory-empty';
+            empty.textContent = 'No lawyer profiles are currently listed for this jurisdiction. Use the official regulator directory to locate members and ask about employment or labour law practice.';
+            results.appendChild(empty);
+            return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        lawyers.forEach(item => fragment.appendChild(createLawyerCard(item, province)));
+        results.appendChild(fragment);
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const preferred = provinceSelect && directoryData.regulators[provinceSelect.value]
+            ? provinceSelect.value
+            : 'ON';
+        window.renderLawyersByProvince(preferred);
+    });
+})();
+</script>
 {% endblock %}

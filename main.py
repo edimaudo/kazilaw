@@ -6,7 +6,7 @@ from fastapi.responses import RedirectResponse
 from utils import extract_text_from_file
 import shutil
 import os
-from agents import audit_contract, ask_qa, translate_legal_result
+from agents import audit_contract, ask_qa #, translate_legal_result
 from db import log_session
 from translations import get_translations, TRANSLATIONS
 

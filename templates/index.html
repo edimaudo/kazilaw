@@ -1,14 +1,23 @@
-
 {% extends "base.html" %}
 
 {% block title %}{{ t["landing_meta_title"] }}{% endblock %}
 
 {% block content %}
 <style>
+    /* Theme-aware landing page */
     .landing-page {
-        background-color: var(--landing-bg);
-        color: var(--landing-text);
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
         transition: background-color 0.2s, color 0.2s;
+    }
+
+    /* Muted text for both themes */
+    :root {
+        --landing-muted: #4B5563;
+    }
+
+    html.dark-theme {
+        --landing-muted: #D1D5DB;
     }
 
     .landing-page h1,
@@ -19,64 +28,57 @@
 
     .landing-page .legal-text {
         font-family: 'Century Schoolbook', 'Montserrat', 'Lato', serif;
+        color: var(--landing-muted);
     }
 
-    /* The hero follows the active theme instead of staying navy */
-    .landing-page .landing-hero {
-        background-color: var(--landing-bg) !important;
-        color: var(--landing-text) !important;
-    }
-
-    /* Override hard-coded Tailwind white text on the landing page */
-    .landing-page .text-white {
-        color: var(--landing-text) !important;
-    }
-
-    /* Introductory text remains readable in both themes */
-    .landing-page .text-gray-300 {
-        color: var(--text-muted) !important;
-    }
-
-    /* Capabilities card */
-    .landing-page .capabilities-card {
-        background-color: var(--bg-card) !important;
+    /*
+       Override the hero's fixed Tailwind background and text colours.
+       The original gold heading emphasis remains unchanged.
+    */
+    .landing-page header {
+        background-color: var(--bg-primary) !important;
         color: var(--text-primary) !important;
         transition: background-color 0.2s, color 0.2s;
     }
 
-    .landing-page .capabilities-card h3,
-    .landing-page .capabilities-card strong,
-    .landing-page .capabilities-card p {
-        color: var(--text-muted) !important;
+    /* The brand name must remain visible in both themes */
+    .landing-page h1 {
+        color: var(--text-primary);
     }
 
-    /* Keep the circular icons in the brand navy */
+    /* Keep the introductory copy readable in both themes */
+    .landing-page header .legal-text {
+        color: var(--landing-muted);
+    }
+
+    /* Preserve the original navy circular icons */
     .landing-page .circle-navy {
-        background-color: var(--navy) !important;
+        background-color: #002147 !important;
     }
 
-    /* Gold primary action */
+    /* Preserve the original gold primary button */
     .landing-page .btn-gold {
-        background-color: var(--gold);
-        color: var(--navy);
-        transition: background-color 0.3s, transform 0.3s;
+        background-color: #D4AF37;
+        color: #002147;
+        transition: 0.3s;
     }
 
     .landing-page .btn-gold:hover {
-        background-color: var(--gold-hover);
+        background-color: #B8962E;
         transform: translateY(-2px);
     }
 
-    /* Secondary action adapts to the theme */
-    .landing-page .btn-outline {
-        border: 1px solid var(--landing-text);
-        color: var(--landing-text);
-        transition: background-color 0.3s, color 0.3s;
+    /*
+       Retain the existing secondary-button design.
+       Its border follows the theme for sufficient contrast.
+    */
+    .landing-page header a.border-white {
+        border-color: var(--text-primary) !important;
     }
 
-    .landing-page .btn-outline:hover {
-        background-color: var(--landing-text);
-        color: var(--bg-card);
+    .landing-page header a.border-white:hover {
+        background-color: #FFFFFF;
+        color: #002147;
     }
 </style>
 
@@ -87,7 +89,7 @@
         </h1>
     </div>
 
-    <header class="landing-hero py-12 px-6 relative overflow-hidden">
+    <header class="bg-[#002147] text-white py-12 px-6 relative overflow-hidden">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center">
 
             <div class="md:w-1/2 z-10">
@@ -109,7 +111,7 @@
                     </a>
 
                     <a href="/qa"
-                       class="px-8 py-4 btn-outline font-bold rounded-md text-lg text-center"
+                       class="px-8 py-4 border border-white hover:bg-white hover:text-[#002147] font-bold rounded-md text-lg transition duration-300 text-center"
                        data-i18n="landing_qa_cta">
                         {{ t["landing_qa_cta"] }}
                     </a>
@@ -117,9 +119,9 @@
             </div>
 
             <div class="md:w-1/2 mt-12 md:mt-0 flex justify-center md:justify-end">
-                <div class="capabilities-card p-8 rounded-xl shadow-2xl w-full max-w-sm border-t-8 border-[#D4AF37]">
+                <div class="bg-white p-8 rounded-xl shadow-2xl text-[#002147] w-full max-w-sm border-t-8 border-[#D4AF37]">
 
-                    <h3 class="text-xl font-bold mb-8 text-center border-b pb-4 uppercase tracking-wider"
+                    <h3 class="text-xl font-bold mb-8 text-center text-gray-500 border-b pb-4 uppercase tracking-wider"
                         data-i18n="capabilities">
                         {{ t["capabilities"] }}
                     </h3>
@@ -128,19 +130,25 @@
                         <li class="flex items-start">
                             <div class="flex-shrink-0 w-10 h-10 circle-navy rounded-full flex items-center justify-center mr-4 mt-0.5 shadow-md"
                                  aria-hidden="true">
-                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none"
-                                     stroke="#D4AF37" stroke-width="4.5"
-                                     stroke-linecap="round" stroke-linejoin="round">
+                                <svg class="w-6 h-6"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="#D4AF37"
+                                     stroke-width="4.5"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
                                     <polyline points="20 6 9 17 4 12"></polyline>
                                 </svg>
                             </div>
 
                             <div>
-                                <strong class="block text-lg leading-tight"
+                                <strong class="block text-gray-500 text-lg leading-tight"
                                         data-i18n="cap_compliance">
                                     {{ t["cap_compliance"] }}
                                 </strong>
-                                <p class="text-sm mt-1" data-i18n="cap_compliance_desc">
+
+                                <p class="text-sm text-gray-500 mt-1"
+                                   data-i18n="cap_compliance_desc">
                                     {{ t["cap_compliance_desc"] }}
                                 </p>
                             </div>
@@ -149,19 +157,25 @@
                         <li class="flex items-start">
                             <div class="flex-shrink-0 w-10 h-10 circle-navy rounded-full flex items-center justify-center mr-4 mt-0.5 shadow-md"
                                  aria-hidden="true">
-                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none"
-                                     stroke="#D4AF37" stroke-width="4.5"
-                                     stroke-linecap="round" stroke-linejoin="round">
+                                <svg class="w-6 h-6"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="#D4AF37"
+                                     stroke-width="4.5"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
                                     <polyline points="20 6 9 17 4 12"></polyline>
                                 </svg>
                             </div>
 
                             <div>
-                                <strong class="block text-lg leading-tight"
+                                <strong class="block text-gray-500 text-lg leading-tight"
                                         data-i18n="cap_issues">
                                     {{ t["cap_issues"] }}
                                 </strong>
-                                <p class="text-sm mt-1" data-i18n="cap_issues_desc">
+
+                                <p class="text-sm text-gray-500 mt-1"
+                                   data-i18n="cap_issues_desc">
                                     {{ t["cap_issues_desc"] }}
                                 </p>
                             </div>
@@ -170,19 +184,25 @@
                         <li class="flex items-start">
                             <div class="flex-shrink-0 w-10 h-10 circle-navy rounded-full flex items-center justify-center mr-4 mt-0.5 shadow-md"
                                  aria-hidden="true">
-                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none"
-                                     stroke="#D4AF37" stroke-width="4.5"
-                                     stroke-linecap="round" stroke-linejoin="round">
+                                <svg class="w-6 h-6"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="#D4AF37"
+                                     stroke-width="4.5"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
                                     <polyline points="20 6 9 17 4 12"></polyline>
                                 </svg>
                             </div>
 
                             <div>
-                                <strong class="block text-lg leading-tight"
+                                <strong class="block text-gray-500 text-lg leading-tight"
                                         data-i18n="cap_advocacy">
                                     {{ t["cap_advocacy"] }}
                                 </strong>
-                                <p class="text-sm mt-1" data-i18n="cap_advocacy_desc">
+
+                                <p class="text-sm text-gray-500 mt-1"
+                                   data-i18n="cap_advocacy_desc">
                                     {{ t["cap_advocacy_desc"] }}
                                 </p>
                             </div>
@@ -190,6 +210,7 @@
                     </ul>
                 </div>
             </div>
+
         </div>
     </header>
 </div>

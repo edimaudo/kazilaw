@@ -16,6 +16,10 @@
 - **Document Processing & OCR**: PyMuPDF (fitz) and python-docx
 - **Template Engine**: Jinja2
 
+## Next Steps
+- Ability to analyze termination letters
+- Add Internationalization
+
 ## Project Structure
 ```
 kazilaw/

@@ -8,6 +8,7 @@
 - **Dual-Mode Contract Review**:
     - **Full Review**: Upload `.pdf`, `.doc`, `.docx` files for compliance check.
     - **Clause Spotlight**: Paste specific sections (e.g., Termination, Non-solicit) for targeted review.
+- Internationalization 
 
 ## Technological Implementation
 - **Web Framework & Server**: FastAPI 
@@ -16,9 +17,8 @@
 - **Document Processing & OCR**: PyMuPDF (fitz) and python-docx
 - **Template Engine**: Jinja2
 
-## Next Steps
-- Ability to analyze termination letters
-- Add Internationalization
+
+
 
 ## Project Structure
 ```

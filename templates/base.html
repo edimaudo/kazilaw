@@ -7,26 +7,43 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        :root { 
-            --navy: #002147; 
-            --gold: #D4AF37; 
+        :root {
+            --navy: #002147;
+            --gold: #D4AF37;
             --gold-hover: #B8962E;
-            
-            /* Light Mode (Accessible High Contrast Defaults) */
-            --bg-primary: #F5F5F5;      /* Off-white canvas instead of blinding pure white */
-            --text-primary: #002147;    /* Deep navy readable text */
-            --bg-card: #ffffff;         /* Pure white container surfaces */
-            --border-color: #D4AF37;    /* Gold accents for structures */
+        
+            /* Light theme */
+            --bg-primary: #F5F5F5;
+            --text-primary: #002147;
+            --bg-card: #FFFFFF;
+            --border-color: #D1D5DB;
+            --bg-hover: #F3F4F6;
+            --text-muted: #4B5563;
+        
+            --nav-bg: #FFFFFF;
+            --footer-bg: #FFFFFF;
+            --footer-text: #002147;
+        
+            --landing-bg: #F5F5F5;
+            --landing-text: #002147;
         }
-
-        .dark-theme {
-            /* Dark Mode */
-            --bg-primary: #002147;      /* Classic deep navy theme background */
-            --text-primary: #ffffff;    /* Crisp white text */
-            --bg-card: #112240;         /* Slightly lighter navy panel surfaces */
-            --border-color: #D4AF37;    /* Gold structural borders */
+        
+        /* Dark theme */
+        html.dark-theme {
+            --bg-primary: #002147;
+            --text-primary: #FFFFFF;
+            --bg-card: #112240;
+            --border-color: #D4AF37;
+            --bg-hover: #1E3554;
+            --text-muted: #CBD5E1;
+        
+            --nav-bg: #112240;
+            --footer-bg: #112240;
+            --footer-text: #FFFFFF;
+        
+            --landing-bg: #002147;
+            --landing-text: #FFFFFF;
         }
-
 
         body { 
             font-family: 'Century Schoolbook', 'Montserrat', 'Lato', sans-serif; 
@@ -83,6 +100,49 @@
         font-style: italic;
         opacity: 0.85;
     }
+
+/* Navigation adapts to the active theme */
+.site-nav {
+    background-color: var(--nav-bg) !important;
+    color: var(--text-primary);
+    border-color: var(--border-color) !important;
+}
+
+.site-nav a {
+    color: var(--text-primary) !important;
+}
+
+.site-nav a[data-i18n="contract_review"]:hover,
+.site-nav a[data-i18n="qa"]:hover,
+.site-nav a.bg-gray-100 {
+    background-color: var(--bg-hover) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Dropdowns and accessibility controls */
+.site-nav #province-select,
+.site-nav #language-select,
+.site-nav #accessibility-toggle,
+.site-nav #accessibility-panel,
+.site-nav #accessibility-panel button {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Keep the theme button legible in both themes */
+.site-nav #theme-toggle {
+    background-color: var(--navy);
+    color: #FFFFFF;
+}
+
+/* Footer adapts to the active theme */
+.site-footer {
+    background-color: var(--footer-bg) !important;
+    color: var(--footer-text) !important;
+    border-color: var(--border-color) !important;
+}
+        
     </style>
     {% block head_extra %}{% endblock %}
     <script>
@@ -98,7 +158,7 @@
         {{ t["skip_to_main"] }}
     </a>
 
-    <nav class="sticky top-0 z-50 bg-white border-b border-gray-200 text-[#002147]">
+    <nav class="site-nav sticky top-0 z-50 border-b"><!-- <nav class="sticky top-0 z-50 bg-white border-b border-gray-200 text-[#002147]"> -->
     <div class="max-w-7xl mx-auto px-4 md:px-6">
         <div class="min-h-16 py-3 flex flex-wrap items-center gap-x-4 gap-y-3">
 
@@ -318,11 +378,13 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-[#002147] text-white py-12 px-6 border-t border-gray-700">
+    <!-- <footer class="bg-[#002147] text-white py-12 px-6 border-t border-gray-700"> -->
+    <!-- <footer class="site-footer py-12 px-6 border-t">
+        
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <p class="text-sm opacity-70">© 2026 kazilaw. <span data-i18n="footer_disclaimer">{{ t["footer_disclaimer"] }}</span></p>
         </div>
-    </footer>
+    </footer> -->
 
 
     <script>

@@ -94,8 +94,13 @@ async def audit_contract(contract_text: str, province_code: str = "ON", language
         contents=[f"Audit this contract:\n\n{contract_text}"],
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,
-            thinking_config=types.ThinkingConfig(thinking_level="MEDIUM"),
-        ),
+            thinking_config=types.ThinkingConfig(thinking_level="MEDIUM") # Options: "MINIMAL", "LOW", "MEDIUM", "HIGH" # old --> temperature=0.1 # temperature was depreciated
+        )
+        # config=types.GenerateContentConfig(
+        #     system_instruction=system_prompt,
+        #     temperature=0.1
+        #     # JSON mime type removed; defaulting to standard text/markdown output
+        # )
     )
     return response.text
 
@@ -146,27 +151,7 @@ async def ask_qa(question: str, province_code: str = "ON", language: str = "en")
         contents=[f"User question: {question}"],
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,
-            thinking_config=types.ThinkingConfig(thinking_level="MEDIUM"),
-        ),
-    )
-    return response.text
-
-
-async def translate_legal_result(result_text: str, language: str = "en") -> str:
-    """Translate an already displayed legal report without changing its meaning."""
-    if language == "fr":
-        instruction = "Traduisez le texte fourni en français canadien naturel et professionnel. Préservez exactement le sens, la structure Markdown, les titres, les listes, les citations législatives, les noms officiels des lois et les URL. N'ajoutez aucune analyse, aucun conseil et aucun fait. Retournez uniquement le texte traduit."
-        request_text = f"Traduisez le rapport juridique suivant en français canadien :\n\n{result_text}"
-    else:
-        instruction = "Translate the provided text into clear Canadian English. Preserve meaning, Markdown structure, headings, lists, legislative citations, official statute names, and URLs exactly. Do not add analysis, advice, or facts. Return only the translated text."
-        request_text = f"Translate the following legal report into Canadian English:\n\n{result_text}"
-
-    response = await client.aio.models.generate_content(
-        model="gemini-3.5-flash",
-        contents=[request_text],
-        config=types.GenerateContentConfig(
-            system_instruction=instruction,
-            thinking_config=types.ThinkingConfig(thinking_level="LOW"),
-        ),
+            thinking_config=types.ThinkingConfig(thinking_level="MEDIUM") # Options: "MINIMAL", "LOW", "MEDIUM", "HIGH" # old --> temperature=0.1 # temperature was depreciated
+        )
     )
     return response.text

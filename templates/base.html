@@ -197,6 +197,20 @@
                     </svg>
 
                 </div>
+                {% endif %}
+
+                <!-- Language -->
+                <div class="relative flex items-center">
+                    <label for="language-select" class="sr-only" data-i18n="language">{{ t["language"] }}</label>
+                    <select id="language-select" aria-label="{{ t['language'] }}" data-i18n-aria-label="language" data-i18n-aria-label="language"
+                            class="appearance-none pl-3 pr-8 py-2 min-w-[72px] text-sm font-semibold bg-white border border-gray-300 rounded-md text-[#002147] cursor-pointer hover:bg-gray-50 focus:outline-none transition duration-200">
+                        <option value="en" {% if language == 'en' %}selected{% endif %}>EN</option>
+                        <option value="fr" {% if language == 'fr' %}selected{% endif %}>FR</option>
+                    </select>
+                    <svg class="pointer-events-none absolute right-2.5 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                </div>
 
                 <!-- Accessibility -->
                 <div class="relative">
@@ -269,20 +283,9 @@
                 </button>
 
             </div>
-            {% endif %}
+            
 
-             <!-- Language -->
-                <div class="relative flex items-center">
-                    <label for="language-select" class="sr-only" data-i18n="language">{{ t["language"] }}</label>
-                    <select id="language-select" aria-label="{{ t['language'] }}" data-i18n-aria-label="language" data-i18n-aria-label="language"
-                            class="appearance-none pl-3 pr-8 py-2 min-w-[72px] text-sm font-semibold bg-white border border-gray-300 rounded-md text-[#002147] cursor-pointer hover:bg-gray-50 focus:outline-none transition duration-200">
-                        <option value="en" {% if language == 'en' %}selected{% endif %}>EN</option>
-                        <option value="fr" {% if language == 'fr' %}selected{% endif %}>FR</option>
-                    </select>
-                    <svg class="pointer-events-none absolute right-2.5 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M6 9l6 6 6-6"/>
-                    </svg>
-                </div>
+
             
         </div>
     </div>

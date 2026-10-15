@@ -94,6 +94,7 @@
         window.kazilawI18n = Object.assign({}, window.kazilawAllTranslations[window.kazilawLanguage]);
     </script>
 </head>
+    
 <body class="flex flex-col min-h-screen font-size-medium" data-title-key="{{ page_title_key }}">
     
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:p-4 focus:bg-white focus:text-[#002147] focus:z-50 border-2 border-gold" data-i18n="skip_to_main">
@@ -110,7 +111,7 @@
                aria-label="{{ t['home'] }}" data-i18n-aria-label="home">
                 kazilaw
             </a>
-
+            {% if request.path != '/' %}
             <!-- Navigation + Controls -->
             <div class="flex flex-wrap items-center justify-end gap-3 md:gap-5">
 
@@ -281,6 +282,7 @@
                 </button>
 
             </div>
+            {% endif %}
         </div>
     </div>
 </nav>

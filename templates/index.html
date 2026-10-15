@@ -4,20 +4,11 @@
 
 {% block content %}
 <style>
-    /* Theme-aware landing page */
+    /* Use the theme variables defined in base.html. */
     .landing-page {
         background-color: var(--bg-primary);
         color: var(--text-primary);
         transition: background-color 0.2s, color 0.2s;
-    }
-
-    /* Muted text for both themes */
-    :root {
-        --landing-muted: #4B5563;
-    }
-
-    html.dark-theme {
-        --landing-muted: #D1D5DB;
     }
 
     .landing-page h1,
@@ -28,35 +19,51 @@
 
     .landing-page .legal-text {
         font-family: 'Century Schoolbook', 'Montserrat', 'Lato', serif;
-        color: var(--landing-muted);
     }
 
-    /*
-       Override the hero's fixed Tailwind background and text colours.
-       The original gold heading emphasis remains unchanged.
-    */
+    /* The original hero used fixed navy and white classes. Override only those
+       theme-dependent colours, leaving the layout and brand accents untouched. */
     .landing-page header {
         background-color: var(--bg-primary) !important;
         color: var(--text-primary) !important;
         transition: background-color 0.2s, color 0.2s;
     }
 
-    /* The brand name must remain visible in both themes */
-    .landing-page h1 {
-        color: var(--text-primary);
+    .landing-page > div:first-child h1 {
+        color: var(--text-primary) !important;
     }
 
-    /* Keep the introductory copy readable in both themes */
-    .landing-page header .legal-text {
-        color: var(--landing-muted);
+    .landing-page header .text-gray-300 {
+        color: var(--text-primary) !important;
+        opacity: 0.82;
     }
 
-    /* Preserve the original navy circular icons */
+    /* Capabilities panel follows the theme; keep the original panel shape,
+       gold top border, internal spacing, and navy/gold icon treatment. */
+    .landing-page .capabilities-card {
+        background-color: var(--bg-card) !important;
+        color: var(--text-primary) !important;
+        transition: background-color 0.2s, color 0.2s;
+    }
+
+    .landing-page .capabilities-card .text-gray-500 {
+        color: var(--landing-muted, #6B7280) !important;
+    }
+
     .landing-page .circle-navy {
         background-color: #002147 !important;
     }
 
-    /* Preserve the original gold primary button */
+    /* Keep subdued card text legible in dark mode without adding new accents. */
+    :root {
+        --landing-muted: #6B7280;
+    }
+
+    html.dark-theme {
+        --landing-muted: #CBD5E1;
+    }
+
+    /* Preserve the existing gold primary action exactly. */
     .landing-page .btn-gold {
         background-color: #D4AF37;
         color: #002147;
@@ -68,149 +75,72 @@
         transform: translateY(-2px);
     }
 
-    /*
-       Retain the existing secondary-button design.
-       Its border follows the theme for sufficient contrast.
-    */
+    /* The secondary action keeps its original outline-and-invert hover style. */
     .landing-page header a.border-white {
         border-color: var(--text-primary) !important;
+        color: var(--text-primary) !important;
     }
 
     .landing-page header a.border-white:hover {
-        background-color: #FFFFFF;
-        color: #002147;
+        background-color: #FFFFFF !important;
+        color: #002147 !important;
     }
 </style>
 
 <div class="landing-page min-h-screen">
     <div class="pt-10 pb-4 text-center">
-        <h1 class="text-6xl md:text-7xl font-extrabold tracking-tighter text-white">
-            kazilaw
-        </h1>
+        <h1 class="text-6xl md:text-7xl font-extrabold tracking-tighter text-white">kazilaw</h1>
     </div>
 
     <header class="bg-[#002147] text-white py-12 px-6 relative overflow-hidden">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center">
-
             <div class="md:w-1/2 z-10">
                 <h2 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6">
-                    <span data-i18n="landing_heading">{{ t["landing_heading"] }}</span>
-                    <span class="text-[#D4AF37]" data-i18n="landing_heading_emphasis">{{ t["landing_heading_emphasis"] }}</span>
+                    <span data-i18n="landing_heading">{{ t["landing_heading"] }}</span> <span class="text-[#D4AF37]" data-i18n="landing_heading_emphasis">{{ t["landing_heading_emphasis"] }}</span>
                 </h2>
-
                 <p class="text-xl text-gray-300 mb-8 legal-text leading-relaxed">
-                    <strong>kazilaw</strong>
-                    <span data-i18n="landing_intro">{{ t["landing_intro"] }}</span>
+                    <strong>kazilaw</strong> <span data-i18n="landing_intro">{{ t["landing_intro"] }}</span>
                 </p>
-
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="/audit"
-                       class="px-8 py-4 btn-gold font-bold rounded-md text-lg text-center"
-                       data-i18n="landing_audit_cta">
-                        {{ t["landing_audit_cta"] }}
-                    </a>
-
-                    <a href="/qa"
-                       class="px-8 py-4 border border-white hover:bg-white hover:text-[#002147] font-bold rounded-md text-lg transition duration-300 text-center"
-                       data-i18n="landing_qa_cta">
-                        {{ t["landing_qa_cta"] }}
-                    </a>
+                    <a href="/audit" class="px-8 py-4 btn-gold font-bold rounded-md text-lg text-center" data-i18n="landing_audit_cta">{{ t["landing_audit_cta"] }}</a>
+                    <a href="/qa" class="px-8 py-4 border border-white hover:bg-white hover:text-[#002147] font-bold rounded-md text-lg transition duration-300 text-center" data-i18n="landing_qa_cta">{{ t["landing_qa_cta"] }}</a>
                 </div>
             </div>
 
             <div class="md:w-1/2 mt-12 md:mt-0 flex justify-center md:justify-end">
-                <div class="bg-white p-8 rounded-xl shadow-2xl text-[#002147] w-full max-w-sm border-t-8 border-[#D4AF37]">
-
-                    <h3 class="text-xl font-bold mb-8 text-center text-gray-500 border-b pb-4 uppercase tracking-wider"
-                        data-i18n="capabilities">
-                        {{ t["capabilities"] }}
-                    </h3>
-
+                <div class="capabilities-card bg-white p-8 rounded-xl shadow-2xl text-[#002147] w-full max-w-sm border-t-8 border-[#D4AF37]">
+                    <h3 class="text-xl font-bold mb-8 text-center text-gray-500 border-b pb-4 uppercase tracking-wider" data-i18n="capabilities">{{ t["capabilities"] }}</h3>
                     <ul class="space-y-6">
                         <li class="flex items-start">
-                            <div class="flex-shrink-0 w-10 h-10 circle-navy rounded-full flex items-center justify-center mr-4 mt-0.5 shadow-md"
-                                 aria-hidden="true">
-                                <svg class="w-6 h-6"
-                                     viewBox="0 0 24 24"
-                                     fill="none"
-                                     stroke="#D4AF37"
-                                     stroke-width="4.5"
-                                     stroke-linecap="round"
-                                     stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
+                            <div class="flex-shrink-0 w-10 h-10 circle-navy rounded-full flex items-center justify-center mr-4 mt-0.5 shadow-md" aria-hidden="true">
+                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                             </div>
-
                             <div>
-                                <strong class="block text-gray-500 text-lg leading-tight"
-                                        data-i18n="cap_compliance">
-                                    {{ t["cap_compliance"] }}
-                                </strong>
-
-                                <p class="text-sm text-gray-500 mt-1"
-                                   data-i18n="cap_compliance_desc">
-                                    {{ t["cap_compliance_desc"] }}
-                                </p>
+                                <strong class="block text-gray-500 text-lg leading-tight" data-i18n="cap_compliance">{{ t["cap_compliance"] }}</strong>
+                                <p class="text-sm text-gray-500 mt-1" data-i18n="cap_compliance_desc">{{ t["cap_compliance_desc"] }}</p>
                             </div>
                         </li>
-
                         <li class="flex items-start">
-                            <div class="flex-shrink-0 w-10 h-10 circle-navy rounded-full flex items-center justify-center mr-4 mt-0.5 shadow-md"
-                                 aria-hidden="true">
-                                <svg class="w-6 h-6"
-                                     viewBox="0 0 24 24"
-                                     fill="none"
-                                     stroke="#D4AF37"
-                                     stroke-width="4.5"
-                                     stroke-linecap="round"
-                                     stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
+                            <div class="flex-shrink-0 w-10 h-10 circle-navy rounded-full flex items-center justify-center mr-4 mt-0.5 shadow-md" aria-hidden="true">
+                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                             </div>
-
                             <div>
-                                <strong class="block text-gray-500 text-lg leading-tight"
-                                        data-i18n="cap_issues">
-                                    {{ t["cap_issues"] }}
-                                </strong>
-
-                                <p class="text-sm text-gray-500 mt-1"
-                                   data-i18n="cap_issues_desc">
-                                    {{ t["cap_issues_desc"] }}
-                                </p>
+                                <strong class="block text-gray-500 text-lg leading-tight" data-i18n="cap_issues">{{ t["cap_issues"] }}</strong>
+                                <p class="text-sm text-gray-500 mt-1" data-i18n="cap_issues_desc">{{ t["cap_issues_desc"] }}</p>
                             </div>
                         </li>
-
                         <li class="flex items-start">
-                            <div class="flex-shrink-0 w-10 h-10 circle-navy rounded-full flex items-center justify-center mr-4 mt-0.5 shadow-md"
-                                 aria-hidden="true">
-                                <svg class="w-6 h-6"
-                                     viewBox="0 0 24 24"
-                                     fill="none"
-                                     stroke="#D4AF37"
-                                     stroke-width="4.5"
-                                     stroke-linecap="round"
-                                     stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
+                            <div class="flex-shrink-0 w-10 h-10 circle-navy rounded-full flex items-center justify-center mr-4 mt-0.5 shadow-md" aria-hidden="true">
+                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                             </div>
-
                             <div>
-                                <strong class="block text-gray-500 text-lg leading-tight"
-                                        data-i18n="cap_advocacy">
-                                    {{ t["cap_advocacy"] }}
-                                </strong>
-
-                                <p class="text-sm text-gray-500 mt-1"
-                                   data-i18n="cap_advocacy_desc">
-                                    {{ t["cap_advocacy_desc"] }}
-                                </p>
+                                <strong class="block text-gray-500 text-lg leading-tight" data-i18n="cap_advocacy">{{ t["cap_advocacy"] }}</strong>
+                                <p class="text-sm text-gray-500 mt-1" data-i18n="cap_advocacy_desc">{{ t["cap_advocacy_desc"] }}</p>
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
-
         </div>
     </header>
 </div>

@@ -6,7 +6,7 @@ from fastapi.responses import RedirectResponse
 from utils import extract_text_from_file
 import shutil
 import os
-from agents import audit_contract, ask_qa #, translate_legal_result
+from agents import audit_contract, ask_qa  # , translate_legal_result
 from db import log_session
 from translations import get_translations, TRANSLATIONS
 
@@ -14,6 +14,12 @@ from translations import get_translations, TRANSLATIONS
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 LANGUAGE_COOKIE = "kazilaw_language"
+
+# Populate this list with verified specialist records, or replace it with your
+# existing data source. Each record must contain: name, firm, and city.
+# Example structure (do not use placeholder identities):
+# SPECIALISTS = [{"name": "...", "firm": "...", "city": "..."}]
+SPECIALISTS = []
 
 
 def get_language(request: Request) -> str:
@@ -118,13 +124,12 @@ async def handle_qa(
     return {"answer": answer}
 
 
-# @app.get("/lawyers", response_class=HTMLResponse)
-# async def get_lawyers_page(request: Request):
-#     """Serves the list of labour and employment specialists."""
-
-#     return templates.TemplateResponse(
-#         "lawyers.html", {**template_context(request), "specialists": specialists}
-#     )
+@app.get("/lawyers", response_class=HTMLResponse)
+async def get_lawyers_page(request: Request):
+    """Serve the list of labour and employment specialists."""
+    context = template_context(request)
+    context["specialists"] = SPECIALISTS
+    return templates.TemplateResponse("lawyers.html", context)
 
 
 if __name__ == "__main__":

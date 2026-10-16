@@ -4,30 +4,42 @@
 
 {% block content %}
 <div class="bg-[var(--bg-primary)] text-[var(--text-primary)] min-h-screen transition-colors duration-300">
-    <header class="bg-[#002147] text-white py-12 px-6 border-b-4 border-gold">
+    <header class="bg-[#002147] text-white py-12 px-6 border-b-4 border-[#D4AF37]">
         <div class="max-w-6xl mx-auto">
             <h1 class="text-4xl font-serif font-bold mb-2 uppercase tracking-tight" data-i18n="lawyers_title">{{ t["lawyers_title"] }}</h1>
             <p class="text-lg text-gray-300 font-light italic" data-i18n="lawyers_subtitle">{{ t["lawyers_subtitle"] }}</p>
         </div>
     </header>
-    <main class="max-w-6xl mx-auto py-12 px-6">
+
+    <section class="max-w-6xl mx-auto py-12 px-6" aria-label="{{ t['lawyers_title'] }}">
+        {% if specialists %}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for lawyer in specialists %}
-            <div class="group bg-[var(--bg-card)] border border-[var(--border-color)] p-6 md:p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <article class="group bg-[var(--bg-card)] border border-[var(--border-color)] p-6 md:p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <div class="flex justify-between items-start mb-4">
-                    <span class="text-xs font-bold text-gold bg-gold/10 px-2 py-1 uppercase tracking-widest">{{ lawyer.city }}</span>
+                    <span class="text-xs font-bold text-[#D4AF37] bg-[#D4AF37]/10 px-2 py-1 uppercase tracking-widest">{{ lawyer.city }}</span>
                     <span class="font-serif font-bold text-lg" data-i18n="credential_abbr">{{ t["credential_abbr"] }}</span>
                 </div>
-                <h3 class="text-2xl font-serif font-bold mb-2 group-hover:text-gold transition-colors">{{ lawyer.name }}</h3>
-                <div class="h-px w-12 bg-gold mb-4 group-hover:w-full transition-all duration-500"></div>
+
+                <h2 class="text-2xl font-serif font-bold mb-2 group-hover:text-[#D4AF37] transition-colors">{{ lawyer.name }}</h2>
+                <div class="h-px w-12 bg-[#D4AF37] mb-4 group-hover:w-full transition-all duration-500"></div>
+
                 <div class="text-sm mb-6">
                     <p class="opacity-60 uppercase text-[10px] font-bold tracking-widest mb-1" data-i18n="business_name">{{ t["business_name"] }}</p>
                     <p class="font-medium leading-tight">{{ lawyer.firm }}</p>
                 </div>
-                <a href="https://lso.ca/directory-of-certified-specialists/labour-law" target="_blank" rel="noopener noreferrer" class="text-xs font-black uppercase border-b border-[var(--text-primary)] hover:text-gold hover:border-gold transition pb-1" data-i18n="verify_standing">{{ t["verify_standing"] }}</a>
-            </div>
+
+                <a href="https://lso.ca/directory-of-certified-specialists/labour-law"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="text-xs font-black uppercase border-b border-[var(--text-primary)] hover:text-[#D4AF37] hover:border-[#D4AF37] transition pb-1"
+                   data-i18n="verify_standing">{{ t["verify_standing"] }}</a>
+            </article>
             {% endfor %}
         </div>
-    </main>
+        {% else %}
+        <p class="text-[var(--text-muted)]" data-i18n="lawyers_empty_state">{{ t.get("lawyers_empty_state", "No specialists are currently listed.") }}</p>
+        {% endif %}
+    </section>
 </div>
 {% endblock %}

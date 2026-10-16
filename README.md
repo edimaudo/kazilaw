@@ -104,3 +104,7 @@ Landing Page: http://127.0.0.1:8080/
 Contract Review Interface: http://127.0.0.1:8080/audit
 
 Legal Q&A Interface: http://127.0.0.1:8080/qa
+
+https://kazilaw-tawny.vercel.app 
+
+https://kazilaw-536411787150.europe-west1.run.app

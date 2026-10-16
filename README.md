@@ -94,10 +94,10 @@ uvicorn main:app --reload --port 8080
 #### Option B: Docker Container
 ```bash
 # Build the container image
-docker build -t maplelaw-app .
+docker build -t kazilaw-app .
 
 # Run the container
-docker run -p 8080:8080 -e GEMINI_API_KEY="your_actual_gemini_api_key_here" maplelaw-app
+docker run -p 8080:8080 -e GEMINI_API_KEY="your_actual_gemini_api_key_here" kazilaw-app
 ```
 Landing Page: http://127.0.0.1:8080/
 

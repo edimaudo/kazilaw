@@ -7,7 +7,7 @@ from utils import extract_text_from_file
 import shutil
 import os
 import asyncio
-from agents import audit_contract, ask_qa  # , translate_legal_result
+from agents import audit_contract, ask_qa
 from db import log_session
 from translations import get_translations, TRANSLATIONS
 from lawyers_data import JURISDICTIONS, PROFILE_SOURCES, MAX_LAWYERS_PER_JURISDICTION
@@ -50,116 +50,46 @@ def template_context(request: Request) -> dict:
 
 
 def lawyer_directory_payload(province: str, language: str, live_data: dict | None = None) -> dict:
-    """Build a bilingual response from profiles retrieved live from firm pages.
-
-    Individual lawyer names and profile URLs are intentionally not maintained in Python.
-    Regulator websites are linked for user-led current-status verification rather than
-    bulk-scraped. If a firm site blocks retrieval, the UI still shows official sources.
-    """
+    """Build a minimal bilingual directory response from live public firm profiles."""
     code = province.upper() if province else DEFAULT_PROVINCE
     if code not in VALID_PROVINCES:
         code = DEFAULT_PROVINCE
     locale = "fr" if str(language).lower().startswith("fr") else "en"
     jurisdiction = JURISDICTIONS[code]
-    live_data = live_data or {"lawyers": [], "checked_at": None, "sources_checked": []}
+    live_data = live_data or {"lawyers": []}
     lawyers = []
     for raw_profile in live_data.get("lawyers", []):
-        profile = dict(raw_profile)
-        source_config = PROFILE_SOURCES.get(profile.get("source_id", ""), {})
-        profile["profile_source_name"] = source_config.get(
-            "name_fr" if locale == "fr" else "name_en",
-            profile.get("profile_source_name", ""),
-        )
-        lawyers.append(profile)
-    count = len(lawyers)
+        profile = {
+            "name": raw_profile.get("name", ""),
+            "firm": raw_profile.get("firm", ""),
+            "city": raw_profile.get("city", ""),
+            "profile_url": raw_profile.get("profile_url", ""),
+        }
+        if profile["name"] and profile["profile_url"]:
+            lawyers.append(profile)
 
     if locale == "fr":
-        if count == 0:
-            coverage_note = (
-                "Aucun profil n’a pu être récupéré automatiquement à partir des pages publiques des cabinets lors de cette vérification. "
-                "Cela peut se produire si une source bloque les requêtes automatisées ou modifie sa structure. Utilisez les liens officiels ci-dessus pour rechercher les avocats."
-            )
-        elif count < 10:
-            coverage_note = (
-                f"{count} profil(s) public(s) ont été récupérés en direct. Cette liste n’est pas exhaustive; utilisez le répertoire officiel pour trouver d’autres avocats."
-            )
-        else:
-            coverage_note = "Les profils ci-dessous ont été récupérés en direct à partir de pages publiques de cabinets. La liste n’est pas exhaustive."
         messages = {
-            "profiles_heading": "Profils d’avocats publiés par les cabinets",
-            "profiles_intro": "Ces profils sont extraits en direct des pages des cabinets. Leur présence sur une page de cabinet ne confirme pas l’inscription actuelle au tableau du barreau.",
             "view_profile": "Voir le profil",
-            "verify_status": "Vérifier auprès du barreau",
-            "empty_title": "Aucun profil récupéré pour cette sélection",
-            "empty_body": "Le répertoire n’a pas pu extraire de profils pertinents des pages de cabinets accessibles. La recherche officielle demeure disponible dans les liens ci-dessus; les répertoires des barreaux ne sont pas récupérés en masse par cette application.",
-            "profile_count": "{count} profil(s) de cabinet récupéré(s) en direct",
-            "status_note": "Statut professionnel non vérifié automatiquement",
-            "source_note": "Les noms et liens de profils proviennent des pages publiques des cabinets répertoriés. kazilaw ne confirme pas le statut auprès du barreau et ne recommande aucun avocat.",
-            "last_checked": "Dernière vérification des sources",
-            "profile_source": "Source du profil",
-            "source_unavailable": "Source inaccessible ou récupération non autorisée",
-            "source_no_matches": "Aucun profil pertinent trouvé sur cette page",
-            "source_matches": "Profils récupérés",
+            "verify_status": "Répertoire du barreau",
+            "empty_body": "Aucun profil n’est actuellement disponible pour cette sélection. Consultez le répertoire officiel pour trouver des avocats en droit de l’emploi et du travail.",
         }
     else:
-        if count == 0:
-            coverage_note = (
-                "No profiles could be retrieved automatically from public law-firm pages during this check. "
-                "This can happen when a source blocks automated requests or changes its page structure. Use the official links above to search for lawyers."
-            )
-        elif count < 10:
-            coverage_note = (
-                f"Retrieved {count} public profile(s) directly from firm pages. This list is not exhaustive; use the official directory to find additional lawyers."
-            )
-        else:
-            coverage_note = "The profiles below were retrieved directly from public law-firm pages. This list is not exhaustive."
         messages = {
-            "profiles_heading": "Lawyer profiles published by firms",
-            "profiles_intro": "These profiles are retrieved live from firm pages. A firm profile does not confirm current enrolment or practising status with the regulator.",
             "view_profile": "View profile",
-            "verify_status": "Verify with regulator",
-            "empty_title": "No profiles were retrieved for this selection",
-            "empty_body": "The directory could not extract relevant profiles from accessible firm pages. Official searches remain available above; this application does not bulk-retrieve law-society directories.",
-            "profile_count": "{count} public firm profile(s) retrieved live",
-            "status_note": "Professional status not automatically verified",
-            "source_note": "Names and profile links come from public pages of the listed firms. kazilaw does not verify regulator status automatically and does not endorse individual lawyers.",
-            "last_checked": "Sources last checked",
-            "profile_source": "Profile source",
-            "source_unavailable": "Source unavailable or automated retrieval not permitted",
-            "source_no_matches": "No matching profiles found on this page",
-            "source_matches": "Profiles retrieved",
+            "verify_status": "Law-society directory",
+            "empty_body": "No profiles are currently available for this selection. Use the official directory to find employment and labour lawyers.",
         }
 
-    source_results = []
-    for item in live_data.get("sources_checked", []):
-        source = PROFILE_SOURCES.get(item.get("source_id"), {})
-        source_results.append({
-            "name": source.get("name_fr" if locale == "fr" else "name_en", item.get("name", "")),
-            "url": item.get("url", source.get("listing_url", "")),
-            "result": item.get("result", "unavailable"),
-            "result_label": messages[{
-                "unavailable": "source_unavailable",
-                "no_matching_profiles": "source_no_matches",
-                "profiles_found": "source_matches",
-            }.get(item.get("result"), "source_unavailable")],
-        })
-
     return {
-        "province": code,
         "province_name": jurisdiction[f"name_{locale}"],
         "regulator_name": jurisdiction[f"regulator_name_{locale}"],
         "regulator_url": jurisdiction["regulator_url"],
         "practice_name": jurisdiction[f"practice_name_{locale}"],
         "practice_url": jurisdiction["practice_url"],
-        "search_note": jurisdiction[f"search_note_{locale}"],
         "lawyers": lawyers,
         "language": locale,
-        "checked_at": live_data.get("checked_at"),
-        "sources_checked": source_results,
-        "messages": {
-            **messages,
-            "coverage_note": coverage_note,
-        },
+        "messages": messages,
     }
 
 

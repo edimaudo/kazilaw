@@ -89,8 +89,8 @@
                     <button id="nav-2" role="tab" aria-selected="false" aria-controls="slide-2" class="sidebar-item" onclick="goToSlide(2)">02. Problem</button>
                     <button id="nav-3" role="tab" aria-selected="false" aria-controls="slide-3" class="sidebar-item" onclick="goToSlide(3)">03. Features</button>
                     <button id="nav-4" role="tab" aria-selected="false" aria-controls="slide-4" class="sidebar-item" onclick="goToSlide(4)">04. Technology Stack</button>
-                    <button id="nav-5" role="tab" aria-selected="false" aria-controls="slide-4" class="sidebar-item" onclick="goToSlide(5)">05. Demo</button>
-                    <button id="nav-6" role="tab" aria-selected="false" aria-controls="slide-5" class="sidebar-item" onclick="goToSlide(6)">06. Next Steps</button>
+                    <button id="nav-5" role="tab" aria-selected="false" aria-controls="slide-5" class="sidebar-item" onclick="goToSlide(5)">05. Demo</button>
+                    <!-- <button id="nav-6" role="tab" aria-selected="false" aria-controls="slide-5" class="sidebar-item" onclick="goToSlide(6)">06. Next Steps</button> -->
                 </nav>
             </div>
         </div>
@@ -144,17 +144,16 @@
                     </div>
                 </section>
 
-                <section class="slide" id="slide-6" role="tabpanel" aria-labelledby="nav-6" aria-hidden="true">
-                    <!-- <div class="flex-1 flex flex-col justify-center"> -->
+                <!-- <section class="slide" id="slide-6" role="tabpanel" aria-labelledby="nav-6" aria-hidden="true">
+                    
                         <h2 class="text-4xl font-black mb-10 uppercase text-navy">Next Steps</h2>
-                        <!-- <div class="mb-12"> -->
+                        
                             <ul class="custom-list">
                                 <li class="list-row"><span class="bullet" aria-hidden="true">•</span><span class="content-text"><strong>Language:</strong> Create French version.</span></li>
                                 <li class="list-row"><span class="bullet" aria-hidden="true">•</span><span class="content-text"><strong>Lawyers:</strong> Add Canadian Lawyer Directory.</span></li>
                             </ul>
-                        <!-- </div> -->
-                    <!-- </div> -->
-                </section>
+                      
+                </section> -->
 
             </main>
 
@@ -167,7 +166,7 @@
 
     <script>
         let current = 1;
-        const total = 6;
+        const total = 5;
 
         function updateDOM(newSlide) {
             document.getElementById(`slide-${current}`).classList.remove('active');

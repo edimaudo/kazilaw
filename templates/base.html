@@ -11,7 +11,7 @@
             --navy: #002147;
             --gold: #D4AF37;
             --gold-hover: #B8962E;
-        
+
             /* Light theme */
             --bg-primary: #F5F5F5;
             --text-primary: #002147;
@@ -19,15 +19,15 @@
             --border-color: #D1D5DB;
             --bg-hover: #F3F4F6;
             --text-muted: #4B5563;
-        
+
             --nav-bg: #FFFFFF;
             --footer-bg: #FFFFFF;
             --footer-text: #002147;
-        
+
             --landing-bg: #F5F5F5;
             --landing-text: #002147;
         }
-        
+
         /* Dark theme */
         html.dark-theme {
             --bg-primary: #002147;
@@ -36,26 +36,25 @@
             --border-color: #D4AF37;
             --bg-hover: #1E3554;
             --text-muted: #CBD5E1;
-        
+
             --nav-bg: #112240;
             --footer-bg: #112240;
             --footer-text: #FFFFFF;
-        
+
             --landing-bg: #002147;
             --landing-text: #FFFFFF;
         }
 
-        body { 
-            font-family: 'Century Schoolbook', 'Montserrat', 'Lato', sans-serif; 
-            background-color: var(--bg-primary); 
+        body {
+            font-family: 'Century Schoolbook', 'Montserrat', 'Lato', sans-serif;
+            background-color: var(--bg-primary);
             color: var(--text-primary);
             transition: background-color 0.2s, color 0.2s, font-size 0.2s;
         }
 
-        /* Enforce structured high-contrast styling across buttons */
         .btn-core-action {
             background-color: var(--gold) !important;
-            color: #002147 !important; /* Always readable dark navy text on gold */
+            color: #002147 !important;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.1em;
@@ -72,85 +71,64 @@
         }
 
         .legal-markdown-content h3 {
-        font-size: 1.15rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        margin-top: 1.5rem;
-        margin-bottom: 0.5rem;
-        border-bottom: 1px solid var(--border-color, #e5e7eb);
-        padding-bottom: 0.25rem;
-        color: var(--text-primary);
-    }
-    .legal-markdown-content p {
-        margin-bottom: 1rem;
-        line-height: 1.6;
-    }
-    .legal-markdown-content ul {
-        list-style-type: disc;
-        padding-left: 1.5rem;
-        margin-bottom: 1rem;
-    }
-    .legal-markdown-content li {
-        margin-bottom: 0.25rem;
-    }
-    .legal-markdown-content strong {
-        font-weight: 700;
-    }
-    .legal-markdown-content em {
-        font-style: italic;
-        opacity: 0.85;
-    }
+            font-size: 1.15rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color, #e5e7eb);
+            padding-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+        .legal-markdown-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .legal-markdown-content ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .legal-markdown-content li { margin-bottom: 0.25rem; }
+        .legal-markdown-content strong { font-weight: 700; }
+        .legal-markdown-content em { font-style: italic; opacity: 0.85; }
 
-/* Navigation adapts to the active theme */
-.site-nav {
-    background-color: var(--nav-bg) !important;
-    color: var(--text-primary);
-    border-color: var(--border-color) !important;
-}
+        /* Navigation adapts to the active theme */
+        .site-nav {
+            background-color: var(--nav-bg) !important;
+            color: var(--text-primary);
+            border-color: var(--border-color) !important;
+        }
+        .site-nav a { color: var(--text-primary) !important; }
+        .site-nav a[data-i18n="contract_review"]:hover,
+        .site-nav a[data-i18n="qa"]:hover,
+        .site-nav a[data-i18n="lawyers_title"]:hover,
+        .site-nav a.bg-gray-100 {
+            background-color: var(--bg-hover) !important;
+            color: var(--text-primary) !important;
+        }
 
-.site-nav a {
-    color: var(--text-primary) !important;
-}
+        /* Dropdowns and accessibility controls */
+        .site-nav #province-select,
+        .site-nav #language-select,
+        .site-nav #accessibility-toggle,
+        .site-nav #accessibility-panel,
+        .site-nav #accessibility-panel button {
+            background-color: var(--bg-card) !important;
+            color: var(--text-primary) !important;
+            border-color: var(--border-color) !important;
+        }
+        .site-nav #theme-toggle {
+            background-color: var(--navy);
+            color: #FFFFFF;
+        }
 
-.site-nav a[data-i18n="contract_review"]:hover,
-.site-nav a[data-i18n="qa"]:hover,
-.site-nav a.bg-gray-100 {
-    background-color: var(--bg-hover) !important;
-    color: var(--text-primary) !important;
-}
-
-/* Dropdowns and accessibility controls */
-.site-nav #province-select,
-.site-nav #language-select,
-.site-nav #accessibility-toggle,
-.site-nav #accessibility-panel,
-.site-nav #accessibility-panel button {
-    background-color: var(--bg-card) !important;
-    color: var(--text-primary) !important;
-    border-color: var(--border-color) !important;
-}
-
-/* Keep the theme button legible in both themes */
-.site-nav #theme-toggle {
-    background-color: var(--navy);
-    color: #FFFFFF;
-}
-
-/* Footer adapts to the active theme */
-.site-footer {
-    background-color: var(--footer-bg) !important;
-    color: var(--footer-text) !important;
-    border-color: var(--border-color) !important;
-}
-
-.site-nav a[data-i18n="contract_review"]:hover,
-.site-nav a[data-i18n="qa"]:hover,
-.site-nav a[data-i18n="lawyers_title"]:hover,
-.site-nav a.bg-gray-100 {
-    background-color: var(--bg-hover) !important;
-    color: var(--text-primary) !important;
-}
-        
+        /* Kept available for the site's footer, should it be enabled in the template */
+        .site-footer {
+            background-color: var(--footer-bg) !important;
+            color: var(--footer-text) !important;
+            border-color: var(--border-color) !important;
+        }
     </style>
     {% block head_extra %}{% endblock %}
     <script>
@@ -159,344 +137,128 @@
         window.kazilawI18n = Object.assign({}, window.kazilawAllTranslations[window.kazilawLanguage]);
     </script>
 </head>
-    
 <body class="flex flex-col min-h-screen font-size-medium" data-title-key="{{ page_title_key }}">
-    
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:p-4 focus:bg-white focus:text-[#002147] focus:z-50 border-2 border-gold" data-i18n="skip_to_main">
         {{ t["skip_to_main"] }}
     </a>
 
-    <nav class="site-nav sticky top-0 z-50 border-b"><!-- <nav class="sticky top-0 z-50 bg-white border-b border-gray-200 text-[#002147]"> -->
-    <div class="max-w-7xl mx-auto px-4 md:px-6">
-        <div class="min-h-16 py-3 flex flex-wrap items-center gap-x-4 gap-y-3">
+    <nav class="site-nav sticky top-0 z-50 border-b">
+        <div class="max-w-7xl mx-auto px-4 md:px-6">
+            <div class="min-h-16 py-3 flex flex-wrap items-center gap-x-4 gap-y-3">
+                <a href="/" class="text-2xl font-bold tracking-tighter shrink-0" aria-label="{{ t['home'] }}" data-i18n-aria-label="home">kazilaw</a>
 
-            <!-- Brand: always stays on the left -->
-            <a href="/"
-               class="text-2xl font-bold tracking-tighter shrink-0"
-               aria-label="{{ t['home'] }}"
-               data-i18n-aria-label="home">
-                kazilaw
-            </a>
-
-            <!-- Right-aligned controls -->
-            <div class="ml-auto flex flex-wrap items-center justify-end gap-x-3 gap-y-2">
-
-                {% if request.path != '/' %}
-
-                <!-- Primary Navigation -->
-                <div class="flex items-center gap-1 text-sm font-semibold">
-
-                    <a href="/audit"
-                       data-i18n="contract_review"
-                       class="px-3 py-2 rounded-md transition duration-200
-                              hover:bg-gray-100
-                              {% if request.path == '/audit' %}
-                              bg-gray-100 text-[#002147]
-                              {% else %}
-                              text-[#002147]
-                              {% endif %}">
-                        {{ t["contract_review"] }}
-                    </a>
-
-                    <a href="/qa"
-                       data-i18n="qa"
-                       class="px-3 py-2 rounded-md transition duration-200
-                              hover:bg-gray-100
-                              {% if request.path == '/qa' %}
-                              bg-gray-100 text-[#002147]
-                              {% else %}
-                              text-[#002147]
-                              {% endif %}">
-                        {{ t["qa"] }}
-                    </a>
-
-                    <a href="/lawyers"
-                       data-i18n="lawyers_title"
-                       class="px-3 py-2 rounded-md transition duration-200 hover:bg-gray-100
-                              {% if request.path == '/lawyers' %}
-                              bg-gray-100 text-[#002147]
-                              {% else %}
-                              text-[#002147]
-                              {% endif %}">
-                        {{ t["lawyers_title"] }}
-                    </a> 
-
-                </div>
-
-                <!-- Province -->
-                <div class="relative flex items-center">
-
-                    <label for="province-select"
-                           class="sr-only"
-                           data-i18n="province">
-                        {{ t["province"] }}
-                    </label>
-
-                    <select id="province-select"
-                            class="appearance-none pl-3 pr-8 py-2
-                                   min-w-[125px] text-sm font-semibold
-                                   bg-white border border-gray-300
-                                   rounded-md text-[#002147]
-                                   cursor-pointer hover:bg-gray-50
-                                   focus:outline-none transition duration-200">
-
-                        <option data-i18n-province="AB" value="AB">{{ t["provinces"]["AB"] }}</option>
-                        <option data-i18n-province="BC" value="BC">{{ t["provinces"]["BC"] }}</option>
-                        <option data-i18n-province="MB" value="MB">{{ t["provinces"]["MB"] }}</option>
-                        <option data-i18n-province="NB" value="NB">{{ t["provinces"]["NB"] }}</option>
-                        <option data-i18n-province="NL" value="NL">{{ t["provinces"]["NL"] }}</option>
-                        <option data-i18n-province="NS" value="NS">{{ t["provinces"]["NS"] }}</option>
-                        <option data-i18n-province="ON" value="ON" selected>{{ t["provinces"]["ON"] }}</option>
-                        <option data-i18n-province="PE" value="PE">{{ t["provinces"]["PE"] }}</option>
-                        <option data-i18n-province="QC" value="QC">{{ t["provinces"]["QC"] }}</option>
-                        <option data-i18n-province="SK" value="SK">{{ t["provinces"]["SK"] }}</option>
-                        <option data-i18n-province="NT" value="NT">{{ t["provinces"]["NT"] }}</option>
-                        <option data-i18n-province="NU" value="NU">{{ t["provinces"]["NU"] }}</option>
-                        <option data-i18n-province="YT" value="YT">{{ t["provinces"]["YT"] }}</option>
-
-                    </select>
-
-                    <svg class="pointer-events-none absolute right-2.5
-                                w-4 h-4 text-gray-500"
-                         fill="none"
-                         stroke="currentColor"
-                         stroke-width="2"
-                         viewBox="0 0 24 24"
-                         aria-hidden="true">
-                        <path d="M6 9l6 6 6-6"/>
-                    </svg>
-
-                </div>
-
-                <!-- Divider only appears when primary navigation is visible -->
-                <div class="hidden md:block h-6 w-px bg-gray-200"
-                     aria-hidden="true"></div>
-
-                {% endif %}
-
-                <!-- Utility Controls: available on every page -->
-                <div class="flex items-center gap-2 md:gap-3">
-
-                    <!-- Language -->
-                    <div class="relative flex items-center">
-
-                        <label for="language-select"
-                               class="sr-only"
-                               data-i18n="language">
-                            {{ t["language"] }}
-                        </label>
-
-                        <select id="language-select"
-                                aria-label="{{ t['language'] }}"
-                                data-i18n-aria-label="language"
-                                class="appearance-none pl-3 pr-8 py-2
-                                       min-w-[72px] text-sm font-semibold
-                                       bg-white border border-gray-300
-                                       rounded-md text-[#002147]
-                                       cursor-pointer hover:bg-gray-50
-                                       focus:outline-none transition duration-200">
-
-                            <option value="en" {% if language == 'en' %}selected{% endif %}>EN</option>
-                            <option value="fr" {% if language == 'fr' %}selected{% endif %}>FR</option>
-
-                        </select>
-
-                        <svg class="pointer-events-none absolute right-2.5
-                                    w-4 h-4 text-gray-500"
-                             fill="none"
-                             stroke="currentColor"
-                             stroke-width="2"
-                             viewBox="0 0 24 24"
-                             aria-hidden="true">
-                            <path d="M6 9l6 6 6-6"/>
-                        </svg>
-
+                <div class="ml-auto flex flex-wrap items-center justify-end gap-x-3 gap-y-2">
+                    {% if request.path != '/' %}
+                    <div class="flex items-center gap-1 text-sm font-semibold">
+                        <a href="/audit" data-i18n="contract_review" class="px-3 py-2 rounded-md transition duration-200 hover:bg-gray-100 {% if request.path == '/audit' %}bg-gray-100 text-[#002147]{% else %}text-[#002147]{% endif %}">{{ t["contract_review"] }}</a>
+                        <a href="/qa" data-i18n="qa" class="px-3 py-2 rounded-md transition duration-200 hover:bg-gray-100 {% if request.path == '/qa' %}bg-gray-100 text-[#002147]{% else %}text-[#002147]{% endif %}">{{ t["qa"] }}</a>
+                        <a href="/lawyers" data-i18n="lawyers_title" class="px-3 py-2 rounded-md transition duration-200 hover:bg-gray-100 {% if request.path == '/lawyers' %}bg-gray-100 text-[#002147]{% else %}text-[#002147]{% endif %}">{{ t["lawyers_title"] }}</a>
                     </div>
 
-                    <!-- Accessibility -->
-                    <div class="relative">
+                    <div class="relative flex items-center">
+                        <label for="province-select" class="sr-only" data-i18n="province">{{ t["province"] }}</label>
+                        <select id="province-select" class="appearance-none pl-3 pr-8 py-2 min-w-[125px] text-sm font-semibold bg-white border border-gray-300 rounded-md text-[#002147] cursor-pointer hover:bg-gray-50 focus:outline-none transition duration-200">
+                            <option data-i18n-province="AB" value="AB">{{ t["provinces"]["AB"] }}</option>
+                            <option data-i18n-province="BC" value="BC">{{ t["provinces"]["BC"] }}</option>
+                            <option data-i18n-province="MB" value="MB">{{ t["provinces"]["MB"] }}</option>
+                            <option data-i18n-province="NB" value="NB">{{ t["provinces"]["NB"] }}</option>
+                            <option data-i18n-province="NL" value="NL">{{ t["provinces"]["NL"] }}</option>
+                            <option data-i18n-province="NS" value="NS">{{ t["provinces"]["NS"] }}</option>
+                            <option data-i18n-province="ON" value="ON" selected>{{ t["provinces"]["ON"] }}</option>
+                            <option data-i18n-province="PE" value="PE">{{ t["provinces"]["PE"] }}</option>
+                            <option data-i18n-province="QC" value="QC">{{ t["provinces"]["QC"] }}</option>
+                            <option data-i18n-province="SK" value="SK">{{ t["provinces"]["SK"] }}</option>
+                            <option data-i18n-province="NT" value="NT">{{ t["provinces"]["NT"] }}</option>
+                            <option data-i18n-province="NU" value="NU">{{ t["provinces"]["NU"] }}</option>
+                            <option data-i18n-province="YT" value="YT">{{ t["provinces"]["YT"] }}</option>
+                        </select>
+                        <svg class="pointer-events-none absolute right-2.5 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
 
-                        <button id="accessibility-toggle"
-                                type="button"
-                                onclick="toggleAccessibility()"
-                                class="px-3 py-2 text-sm font-bold
-                                       border border-gray-300 rounded-md
-                                       hover:bg-gray-100 transition duration-200"
-                                aria-expanded="false"
-                                aria-controls="accessibility-panel"
-                                aria-label="{{ t['accessibility_settings'] }}"
-                                data-i18n-aria-label="accessibility_settings">
-                            Aa
-                        </button>
+                    <div class="hidden md:block h-6 w-px bg-gray-200" aria-hidden="true"></div>
+                    {% endif %}
 
-                        <!-- Accessibility Panel -->
-                        <div id="accessibility-panel"
-                             class="hidden absolute right-0 top-full mt-2
-                                    w-64 p-4 bg-white border border-gray-200
-                                    rounded-lg shadow-lg z-50">
+                    <div class="flex items-center gap-2 md:gap-3">
+                        <div class="relative flex items-center">
+                            <label for="language-select" class="sr-only" data-i18n="language">{{ t["language"] }}</label>
+                            <select id="language-select" aria-label="{{ t['language'] }}" data-i18n-aria-label="language" class="appearance-none pl-3 pr-8 py-2 min-w-[72px] text-sm font-semibold bg-white border border-gray-300 rounded-md text-[#002147] cursor-pointer hover:bg-gray-50 focus:outline-none transition duration-200">
+                                <option value="en" {% if language == 'en' %}selected{% endif %}>EN</option>
+                                <option value="fr" {% if language == 'fr' %}selected{% endif %}>FR</option>
+                            </select>
+                            <svg class="pointer-events-none absolute right-2.5 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                        </div>
 
-                            <div class="text-xs font-bold uppercase
-                                        tracking-wider mb-3"
-                                 data-i18n="text_size">
-                                {{ t["text_size"] }}
-                            </div>
-
-                            <div class="flex gap-2">
-
-                                <button onclick="changeFontSize('small')"
-                                        class="flex-1 px-2 py-2 text-xs
-                                               font-semibold bg-white
-                                               border border-gray-300
-                                               rounded hover:bg-gray-100"
-                                        data-i18n="small">
-                                    {{ t["small"] }}
-                                </button>
-
-                                <button onclick="changeFontSize('medium')"
-                                        class="flex-1 px-2 py-2 text-sm
-                                               font-bold bg-white
-                                               border border-gray-300
-                                               rounded hover:bg-gray-100"
-                                        data-i18n="medium">
-                                    {{ t["medium"] }}
-                                </button>
-
-                                <button onclick="changeFontSize('large')"
-                                        class="flex-1 px-2 py-2 text-base
-                                               font-black bg-white
-                                               border border-gray-300
-                                               rounded hover:bg-gray-100"
-                                        data-i18n="large">
-                                    {{ t["large"] }}
-                                </button>
-
+                        <div class="relative">
+                            <button id="accessibility-toggle" type="button" onclick="toggleAccessibility()" class="px-3 py-2 text-sm font-bold border border-gray-300 rounded-md hover:bg-gray-100 transition duration-200" aria-expanded="false" aria-controls="accessibility-panel" aria-label="{{ t['accessibility_settings'] }}" data-i18n-aria-label="accessibility_settings">Aa</button>
+                            <div id="accessibility-panel" class="hidden absolute right-0 top-full mt-2 w-64 p-4 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                                <div class="text-xs font-bold uppercase tracking-wider mb-3" data-i18n="text_size">{{ t["text_size"] }}</div>
+                                <div class="flex gap-2">
+                                    <button onclick="changeFontSize('small')" class="flex-1 px-2 py-2 text-xs font-semibold bg-white border border-gray-300 rounded hover:bg-gray-100" data-i18n="small">{{ t["small"] }}</button>
+                                    <button onclick="changeFontSize('medium')" class="flex-1 px-2 py-2 text-sm font-bold bg-white border border-gray-300 rounded hover:bg-gray-100" data-i18n="medium">{{ t["medium"] }}</button>
+                                    <button onclick="changeFontSize('large')" class="flex-1 px-2 py-2 text-base font-black bg-white border border-gray-300 rounded hover:bg-gray-100" data-i18n="large">{{ t["large"] }}</button>
+                                </div>
                             </div>
                         </div>
+
+                        <button id="theme-toggle" type="button" onclick="toggleTheme()" class="px-3 py-2 text-sm font-semibold bg-[#002147] text-white rounded-md hover:opacity-90 transition duration-200" aria-label="{{ t['toggle_theme'] }}" data-i18n-aria-label="toggle_theme">☀ {{ t["light"] }}</button>
                     </div>
-
-                    <!-- Theme Toggle -->
-                    <button id="theme-toggle"
-                            type="button"
-                            onclick="toggleTheme()"
-                            class="px-3 py-2 text-sm font-semibold
-                                   bg-[#002147] text-white rounded-md
-                                   hover:opacity-90 transition duration-200"
-                            aria-label="{{ t['toggle_theme'] }}"
-                            data-i18n-aria-label="toggle_theme">
-                        ☀ {{ t["light"] }}
-                    </button>
-
                 </div>
             </div>
         </div>
-    </div>
-</nav>
-
+    </nav>
 
     <main class="flex-grow" id="main-content">
         {% block content %}{% endblock %}
     </main>
 
-    <!-- <footer class="bg-[#002147] text-white py-12 px-6 border-t border-gray-700"> -->
-    <!-- <footer class="site-footer py-12 px-6 border-t">
-        
+    <!-- Existing footer markup is retained in its original commented state. -->
+    <!-- <footer class="bg-[#002147] text-white py-12 px-6 border-t border-gray-700">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <p class="text-sm opacity-70">© 2026 kazilaw. <span data-i18n="footer_disclaimer">{{ t["footer_disclaimer"] }}</span></p>
         </div>
     </footer> -->
 
-
     <script>
     const app = {
-        get path() {
-            return window.location.pathname;
-        },
-
-        get isHomePage() {
-            return this.path === '/' ||
-                   this.path.endsWith('index.html') ||
-                   this.path === '';
-        }
+        get path() { return window.location.pathname; },
+        get isHomePage() { return this.path === '/' || this.path.endsWith('index.html') || this.path === ''; }
     };
 
     function toggleAccessibility() {
         const panel = document.getElementById('accessibility-panel');
         const button = document.getElementById('accessibility-toggle');
-
         if (!panel || !button) return;
-
         const isHidden = panel.classList.contains('hidden');
-
         panel.classList.toggle('hidden');
         button.setAttribute('aria-expanded', String(isHidden));
     }
 
-    // function changeFontSize(size) {
-    //     document.body.classList.remove(
-    //         'font-size-small',
-    //         'font-size-medium',
-    //         'font-size-large'
-    //     );
-
-    //     document.body.classList.add(`font-size-${size}`);
-    //     localStorage.setItem('preferred-font-size', size);
-    // }
     function changeFontSize(size) {
-        const fontScales = {
-            small: '75%',
-            medium: '100%',
-            large: '125%'
-        };
-    
-        if (!Object.prototype.hasOwnProperty.call(fontScales, size)) {
-            return;
-        }
-    
-        // Scale the root font size across the application
+        const fontScales = { small: '75%', medium: '100%', large: '125%' };
+        if (!Object.prototype.hasOwnProperty.call(fontScales, size)) return;
         document.documentElement.style.fontSize = fontScales[size];
-    
-        // Save the user's preference
         localStorage.setItem('preferred-font-size', size);
-    }  
+    }
 
     function updateThemeButton(isDark) {
         const button = document.getElementById('theme-toggle');
-
         if (!button) return;
-
-        button.textContent = isDark
-            ? `☾ ${window.kazilawI18n.dark}`
-            : `☀ ${window.kazilawI18n.light}`;
+        button.textContent = isDark ? `☾ ${window.kazilawI18n.dark}` : `☀ ${window.kazilawI18n.light}`;
     }
 
     function toggleTheme() {
-        //if (app.isHomePage) return;
-
         const isDark = document.documentElement.classList.toggle('dark-theme');
-
-        localStorage.setItem(
-            'preferred-theme',
-            isDark ? 'dark' : 'light'
-        );
-
+        localStorage.setItem('preferred-theme', isDark ? 'dark' : 'light');
         updateThemeButton(isDark);
     }
 
     function updatePageProvinceText() {
         const dropdown = document.getElementById('province-select');
         const dynamicText = document.getElementById('dynamic-province-text');
-
         if (!dropdown) return;
-
-        localStorage.setItem(
-            'preferred-province',
-            dropdown.value
-        );
-
-        if (dynamicText) {
-            dynamicText.textContent =
-                dropdown.options[dropdown.selectedIndex].text;
-        }
+        localStorage.setItem('preferred-province', dropdown.value);
+        if (dynamicText) dynamicText.textContent = dropdown.options[dropdown.selectedIndex].text;
+        document.dispatchEvent(new CustomEvent('kazilaw:provincechange', { detail: { province: dropdown.value } }));
     }
 
     function applyLanguage(language) {
@@ -505,7 +267,6 @@
         window.kazilawLanguage = selected;
         Object.assign(window.kazilawI18n, dictionary);
         document.documentElement.lang = selected === 'fr' ? 'fr-CA' : 'en-CA';
-
         document.querySelectorAll('[data-i18n]').forEach((element) => {
             const key = element.dataset.i18n;
             if (Object.prototype.hasOwnProperty.call(dictionary, key)) element.textContent = dictionary[key];
@@ -522,7 +283,6 @@
             const code = element.dataset.i18nProvince;
             if (dictionary.provinces[code] !== undefined) element.textContent = dictionary.provinces[code];
         });
-
         const titleKey = document.body.dataset.titleKey;
         if (titleKey && dictionary[titleKey]) {
             document.title = titleKey === 'landing_meta_title' || titleKey === 'not_found_title'
@@ -531,6 +291,7 @@
         }
         updateThemeButton(document.documentElement.classList.contains('dark-theme'));
         updatePageProvinceText();
+        document.dispatchEvent(new CustomEvent('kazilaw:languagechange', { detail: { language: selected } }));
     }
 
     async function setLanguage(language) {
@@ -538,7 +299,6 @@
         if (selected === window.kazilawLanguage) return;
         document.cookie = `kazilaw_language=${selected}; Path=/; Max-Age=31536000; SameSite=Lax`;
         applyLanguage(selected);
-
         const output = document.getElementById('analysisOutput') || document.getElementById('answerArea');
         const container = document.getElementById('resultContainer');
         const source = window.kazilawRawResult;
@@ -558,9 +318,7 @@
                 if (data.answer) {
                     window.kazilawRawResult = data.answer;
                     output.innerHTML = marked.parse(data.answer);
-                } else {
-                    output.innerHTML = previousHtml;
-                }
+                } else output.innerHTML = previousHtml;
             } catch (error) {
                 if (requestId === window.kazilawTranslationRequestId) {
                     output.innerHTML = previousHtml;
@@ -574,57 +332,22 @@
     function initializeApp() {
         const dropdown = document.getElementById('province-select');
         const languageDropdown = document.getElementById('language-select');
-
-        if (languageDropdown) {
-            languageDropdown.addEventListener('change', () => setLanguage(languageDropdown.value));
-        }
-
-        // Restore font size
+        if (languageDropdown) languageDropdown.addEventListener('change', () => setLanguage(languageDropdown.value));
         const savedSize = localStorage.getItem('preferred-font-size');
-
-        if (savedSize) {
-            changeFontSize(savedSize);
-        }
-
-        // Restore theme
+        if (savedSize) changeFontSize(savedSize);
         const savedTheme = localStorage.getItem('preferred-theme');
         const isDark = savedTheme === 'dark';
-
-        // if (isDark && !app.isHomePage) {
-        //     document.documentElement.classList.add('dark-theme');
-        // }
-
-        // updateThemeButton(
-        //     isDark && !app.isHomePage
-        // );
         document.documentElement.classList.toggle('dark-theme', isDark);
-
         updateThemeButton(isDark);
-        
-
-        // Restore province
-        const savedProvince =
-            localStorage.getItem('preferred-province');
-
-        if (dropdown && savedProvince) {
-            dropdown.value = savedProvince;
-        }
-
-        // Listen for province changes
+        const savedProvince = localStorage.getItem('preferred-province');
+        if (dropdown && savedProvince) dropdown.value = savedProvince;
         if (dropdown) {
-            dropdown.addEventListener(
-                'change',
-                updatePageProvinceText
-            );
-
+            dropdown.addEventListener('change', updatePageProvinceText);
             updatePageProvinceText();
         }
     }
 
-    document.addEventListener(
-        'DOMContentLoaded',
-        initializeApp
-    );
-</script>
+    document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
 </body>
 </html>

@@ -8,7 +8,7 @@ import shutil
 import os
 import asyncio
 from agents import audit_contract, ask_qa
-from db import log_session
+#from db import log_session
 from translations import get_translations, TRANSLATIONS
 from lawyers_data import JURISDICTIONS, PROFILE_SOURCES, MAX_LAWYERS_PER_JURISDICTION
 from lawyers_service import get_live_profiles
@@ -135,7 +135,7 @@ async def handle_audit(
         return {"answer": strings["no_readable_text"]}
 
     analysis = await audit_contract(context, province, language)
-    log_session("audits", province, analysis)
+    #log_session("audits", province, analysis)
     return {"answer": analysis}
 
 
@@ -165,7 +165,7 @@ async def handle_qa(
     """Employment and labour Q&A section."""
     language = get_language(request)
     answer = await ask_qa(question, province, language)
-    log_session("qa_inquiries", province, answer)
+    ##log_session("qa_inquiries", province, answer)
     return {"answer": answer}
 
 

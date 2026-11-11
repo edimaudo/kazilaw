@@ -8,7 +8,6 @@
 - **Dual-Mode Contract Review**:
     - **Full Review**: Upload `.pdf`, `.doc`, `.docx` files for compliance check.
     - **Clause Spotlight**: Paste specific sections (e.g., Termination, Non-solicit) for targeted review.
-- Internationalization 
 
 ## Technological Implementation
 - **Web Framework & Server**: FastAPI 
@@ -16,9 +15,6 @@
 - **Cloud Hosting & Compute**: Google Cloud Run (Docker Containerized)
 - **Document Processing & OCR**: PyMuPDF (fitz) and python-docx
 - **Template Engine**: Jinja2
-
-
-
 
 ## Project Structure
 ```
@@ -94,10 +90,10 @@ uvicorn main:app --reload --port 8080
 #### Option B: Docker Container
 ```bash
 # Build the container image
-docker build -t kazilaw-app .
+docker build -t kazilaw .
 
 # Run the container
-docker run -p 8080:8080 -e GEMINI_API_KEY="your_actual_gemini_api_key_here" kazilaw-app
+docker run -p 8080:8080 -e GEMINI_API_KEY="your_actual_gemini_api_key_here" kazilaw
 ```
 Landing Page: http://127.0.0.1:8080/
 
